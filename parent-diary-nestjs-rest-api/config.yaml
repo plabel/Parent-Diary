@@ -6,3 +6,9 @@ db:
   database: parent_diary
 master_key: 1234567890_master_key
 pepper: 1234567890_pepper
+email:
+  host: pro3.mail.ovh.net	
+  port: 587
+  secure: false
+  auth:
+    user: no-reply@parent-diary.ovh

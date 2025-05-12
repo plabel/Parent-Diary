@@ -1,21 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
 import { SignInDto } from './dto/sign-in.dto';
 import { randomBytes } from 'crypto';
-
+import { EmailService } from '../email/email.service';
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
 
     @Get()
     findAll(): Promise<User[]> {
         return this.usersService.findAll();
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string): Promise<User | null> {
-        return this.usersService.findOne(id);
+    @Get('confirm-email')
+    confirmEmail(@Query('token') token: string): Promise<boolean> {
+        return this.usersService.confirmEmail(token);
     }
 
     @Post()
@@ -24,7 +24,7 @@ export class UsersController {
     }
 
     @Post('sign-in')
-    signIn(@Body() signInDto: SignInDto): Promise<User> {
+    async signIn(@Body() signInDto: SignInDto): Promise<boolean> {
         const salt: string = randomBytes(20).toString('hex');
         const user: Omit<User, 'id' | 'isEmailVerified'> = {
           ...signInDto,
@@ -32,12 +32,9 @@ export class UsersController {
           salt: salt,
           encryptedSecretKey: this.usersService.generateEncryptedSecretKey()
         } as unknown as Omit<User, 'id' | 'isEmailVerified'>;
-        return this.usersService.create(user);   
-    }
-
-    @Delete(':id')
-    remove(@Param('id') id: string): Promise<void> {
-        return this.usersService.remove(id);
+        const createdUser = await this.usersService.create(user);
+        await this.emailService.sendConfirmationEmail(createdUser.dataValues.email, createdUser.dataValues.id);
+        return true;
     }
 
 }

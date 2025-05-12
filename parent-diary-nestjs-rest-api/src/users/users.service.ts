@@ -49,4 +49,18 @@ export class UsersService {
     const user = await this.findOne(id);
     await user?.destroy();
   }
+
+  async confirmEmail(token: string): Promise<boolean> {
+    const user = await this.userModel.update({
+      isEmailVerified: true
+    }, {
+      where: {
+        id: token
+      }
+    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return true;
+  }
 }

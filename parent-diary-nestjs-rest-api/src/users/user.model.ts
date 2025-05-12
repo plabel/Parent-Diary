@@ -14,4 +14,7 @@ export class User extends Model {
 
   @Column
   passwordHash: string;
+
+  @Column
+  isEmailVerified: boolean;
 }
