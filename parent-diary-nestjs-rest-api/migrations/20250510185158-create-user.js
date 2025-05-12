@@ -21,6 +21,16 @@ module.exports = {
       passwordHash: {
         type: Sequelize.STRING
       },
+      salt: {
+        type: Sequelize.STRING
+      },
+      encryptedSecretKey: {
+        type: Sequelize.STRING
+      },
+      isEmailVerified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

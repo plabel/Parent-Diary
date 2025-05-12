@@ -4,3 +4,5 @@ db:
   username: root
   password: example
   database: parent_diary
+master_key: 1234567890_master_key
+pepper: 1234567890_pepper

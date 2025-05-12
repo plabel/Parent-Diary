@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
+import { SignInDto } from './dto/sign-in.dto';
+import { randomBytes } from 'crypto';
 
 @Controller('users')
 export class UsersController {
@@ -18,6 +20,18 @@ export class UsersController {
 
     @Post()
     create(@Body() user: Omit<User, 'id'>): Promise<User> {
+        return this.usersService.create(user);   
+    }
+
+    @Post('sign-in')
+    signIn(@Body() signInDto: SignInDto): Promise<User> {
+        const salt: string = randomBytes(20).toString('hex');
+        const user: Omit<User, 'id' | 'isEmailVerified'> = {
+          ...signInDto,
+          passwordHash: this.usersService.hashPassword(signInDto.password, salt),
+          salt: salt,
+          encryptedSecretKey: this.usersService.generateEncryptedSecretKey()
+        } as unknown as Omit<User, 'id' | 'isEmailVerified'>;
         return this.usersService.create(user);   
     }
 
