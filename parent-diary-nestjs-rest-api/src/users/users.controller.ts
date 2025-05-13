@@ -33,7 +33,7 @@ export class UsersController {
           encryptedSecretKey: this.usersService.generateEncryptedSecretKey()
         } as unknown as Omit<User, 'id' | 'isEmailVerified'>;
         const createdUser = await this.usersService.create(user);
-        await this.emailService.sendConfirmationEmail(createdUser.dataValues.email, createdUser.dataValues.id);
+        await this.emailService.sendConfirmationEmail(createdUser.dataValues.email, `${createdUser.dataValues.id}`);
         return true;
     }
 

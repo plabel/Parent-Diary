@@ -32,7 +32,7 @@ export class UsersService {
 
   generateEncryptedSecretKey(): string {
     const secretKey = randomBytes(32).toString('hex');
-    const encryptedSecretKey = AES.encrypt(secretKey, this.configService.get('master_key')).toString();
+    const encryptedSecretKey = AES.encrypt(secretKey, this.configService.get('master_key')).toString(enc.Utf8);
     return encryptedSecretKey;
   }
   decryptSecretKey(encryptedSecretKey: string): string {
@@ -51,11 +51,13 @@ export class UsersService {
   }
 
   async confirmEmail(token: string): Promise<boolean> {
+    const buffer = AES.decrypt(token, this.configService.get('master_key'));
+    const decryptedToken = Buffer.from(buffer.toString(enc.Utf8), 'hex').toString();
     const user = await this.userModel.update({
       isEmailVerified: true
     }, {
       where: {
-        id: token
+        id: decryptedToken
       }
     });
     if (!user) {

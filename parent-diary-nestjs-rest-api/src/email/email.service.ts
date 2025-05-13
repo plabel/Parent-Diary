@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createTransport, Transporter } from 'nodemailer';
 import { MailOptions } from 'nodemailer/lib/smtp-pool';
+import * as AES from 'crypto-js/aes';
+import * as enc from 'crypto-js/enc-utf8';
 @Injectable()
 export class EmailService {
     private transporter: Transporter;
@@ -25,7 +27,9 @@ export class EmailService {
         return info.messageId;
     }
     async sendConfirmationEmail(to: string, token: string) {
-        const url = `${process.env.URL}/users/confirm-email?token=${token}`;
+        const encryptedToken = AES.encrypt(token, this.configService.get('master_key')).toString(enc.Utf8);
+        const encodedToken = encodeURIComponent(encryptedToken);
+        const url = `${process.env.NEXT_JS_FRONT_URL}/users/confirm-email/${encodedToken}`;
         const html = `
             Please confirm your email by clicking the link below:
             ${url}
