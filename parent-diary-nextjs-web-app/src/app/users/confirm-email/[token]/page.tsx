@@ -1,8 +1,8 @@
 "use client";
 import { useAlert } from "@/app/_global/alert/alert-provider";
-import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import Link from "next/link";
 import { Usable, useEffect, useState, use } from "react";
+import { confirmEmail } from "./helpers/confirmEmail";
 
 type ConfirmEmailProps = {
   params: Usable<{
@@ -16,20 +16,7 @@ export default function ConfirmEmail({ params }: ConfirmEmailProps) {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
-    const confirmEmail = async () => {
-      const {data, error} = await fetchWrapper<boolean>(
-        `${process.env.NEXT_PUBLIC_REST_API_URL}/users/confirm-email?token=${token}`,
-        {
-          method: "GET",
-        }
-      );
-      if (data === true) {
-        setIsConfirmed(true);
-      } else {
-        showAlert("danger", error.message ?? "Error confirming email");
-      }
-    };
-    confirmEmail();
+    confirmEmail(token, setIsConfirmed, showAlert);
   }, []);
 
   return (
