@@ -18,18 +18,6 @@ export class UsersService {
     return this.userModel.create(user);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.findAll();
-  }
-
-  findOne(id: string): Promise<User | null> {
-    return this.userModel.findOne({
-      where: {
-        id,
-      },
-    });
-  }
-
   generateEncryptedSecretKey(): string {
     const secretKey = randomBytes(32).toString('hex');
     const encryptedSecretKey = AES.encrypt(secretKey, this.configService.get('master_key')).toString(enc.Utf8);
@@ -43,11 +31,6 @@ export class UsersService {
   hashPassword(password: string, salt: string): string {
     const seasonedPassword = `${salt}${password}${this.configService.get('pepper')}`;
     return createHash('sha256').update(seasonedPassword).digest('hex');
-  }
-
-  async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
-    await user?.destroy();
   }
 
   async confirmEmail(token: string): Promise<boolean> {

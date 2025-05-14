@@ -8,19 +8,9 @@ import { EmailService } from '../email/email.service';
 export class UsersController {
     constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
 
-    @Get()
-    findAll(): Promise<User[]> {
-        return this.usersService.findAll();
-    }
-
     @Get('confirm-email')
     confirmEmail(@Query('token') token: string): Promise<boolean> {
         return this.usersService.confirmEmail(token);
-    }
-
-    @Post()
-    create(@Body() user: Omit<User, 'id'>): Promise<User> {
-        return this.usersService.create(user);   
     }
 
     @Post('sign-in')
