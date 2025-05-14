@@ -5,7 +5,8 @@ export async function submitSignIn(
   formData: FormData,
   showAlert: (variant: string, message: string) => void,
   setFormErrors: (formErrors: Record<string, boolean>) => void,
-  formErrorsState: Record<string, boolean>
+  formErrorsState: Record<string, boolean>,
+  setLoading: (loading: boolean) => void
 ) {
   const email = formData.get("email");
   const firstName = formData.get("firstName");
@@ -19,6 +20,7 @@ export async function submitSignIn(
   };
   setFormErrors(updatedFormErrors);
   if (!isValid) {
+    setLoading(false);
     return;
   }
 
@@ -40,4 +42,5 @@ export async function submitSignIn(
   } else {
     showAlert("danger", "Sign in failed");
   }
+  setLoading(false);
 }

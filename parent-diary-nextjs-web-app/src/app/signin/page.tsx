@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function SignIn() {
   const showAlert = useAlert();
+  const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, boolean>>({
     email: false,
     firstName: false,
@@ -18,7 +19,8 @@ export default function SignIn() {
         noValidate
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          submitSignIn(new FormData(e.currentTarget), showAlert, setFormErrors, formErrors);
+          setLoading(true);
+          submitSignIn(new FormData(e.currentTarget), showAlert, setFormErrors, formErrors, setLoading);
         }}
       >
         <h1 className="h3 mb-3 fw-normal">Parent Diary sign in</h1>
@@ -85,8 +87,8 @@ export default function SignIn() {
           <small>At least 12 characters. Must
           contain at least one uppercase letter and one number.</small>
         </div>
-        <button className="btn btn-primary w-100 py-2" type="submit">
-          Sign in
+        <button disabled={loading}   className="btn btn-primary w-100 py-2" type="submit">
+          {loading ? "Signing in..." : "Sign in"}
         </button>
         <p className="mt-5 mb-3 text-body-secondary">© 2025</p>
       </Form>
