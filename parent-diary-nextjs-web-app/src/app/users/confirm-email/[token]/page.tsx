@@ -14,24 +14,24 @@ export default function ConfirmEmail({ params }: ConfirmEmailProps) {
   const showAlert = useAlert();
   const token = use(params).token;
   const [isConfirmed, setIsConfirmed] = useState(false);
+
   useEffect(() => {
     const confirmEmail = async () => {
-      const response = await fetchWrapper<boolean>(
-        `${
-          process.env.NEXT_PUBLIC_REST_API_URL
-        }/users/confirm-email?token=${token}`,
+      const {data, error} = await fetchWrapper<boolean>(
+        `${process.env.NEXT_PUBLIC_REST_API_URL}/users/confirm-email?token=${token}`,
         {
           method: "GET",
         }
       );
-      if (response === true) {
+      if (data === true) {
         setIsConfirmed(true);
       } else {
-        showAlert("danger", "Error confirming email");
+        showAlert("danger", error.message ?? "Error confirming email");
       }
     };
     confirmEmail();
   }, []);
+
   return (
     <main className={"centered-main w-100 m-auto"}>
       {isConfirmed ? (

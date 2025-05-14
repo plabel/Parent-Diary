@@ -24,7 +24,7 @@ export async function submitSignIn(
     return;
   }
 
-  const response = await fetchWrapper<boolean>(
+  const {data, error} = await fetchWrapper<boolean>(
     `${process.env.NEXT_PUBLIC_REST_API_URL}/users/sign-in`,
     {
       method: "POST",
@@ -34,13 +34,13 @@ export async function submitSignIn(
       body: JSON.stringify(payload),
     }
   );
-  if (response) {
+  if (data) {
     showAlert(
       "success",
       "Sign in successful, please check your email for a confirmation link"
     );
   } else {
-    showAlert("danger", "Sign in failed");
+    showAlert("danger", error.message ?? "Sign in failed");
   }
   setLoading(false);
 }
