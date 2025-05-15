@@ -7,7 +7,7 @@ export async function submitSignIn(
   setFormErrors: (formErrors: Record<string, boolean>) => void,
   formErrorsState: Record<string, boolean>,
   setLoading: (loading: boolean) => void
-) {
+): Promise<void> {
   const email = formData.get("email");
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
