@@ -88,6 +88,14 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "coveragePathIgnorePatterns": [
+      "fixtures.ts",
+      "model.ts",
+      "config.ts",
+      "main.ts",
+      "interceptor.ts",
+      "module.ts"
+    ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
