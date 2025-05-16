@@ -17,4 +17,7 @@ export class User extends Model {
 
   @Column
   isEmailVerified: boolean;
+
+  @Column
+  salt: string;
 }

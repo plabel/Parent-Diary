@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { ValidationWrapperPipe } from './pipes/validation-wrapper/validation-wrapper.pipe';
+import * as session from 'express-session';
+import { randomBytes } from 'crypto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +14,13 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.NEXT_JS_FRONT_URL,
   });
+  app.use(
+    session({
+      secret: randomBytes(20).toString('hex'),
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

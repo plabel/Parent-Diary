@@ -1,9 +1,12 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
 import { SignInDto } from './dto/sign-in.dto';
 import { randomBytes } from 'crypto';
 import { EmailService } from '../email/email.service';
+import { LogInDto } from './dto/log-in.dto';
+import { Request } from 'express';
+import { AuthGuard } from 'src/guard/auth/auth.guard';
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
@@ -11,6 +14,20 @@ export class UsersController {
     @Get('confirm-email')
     confirmEmail(@Query('token') token: string): Promise<boolean> {
         return this.usersService.confirmEmail(token);
+    }
+    @Get('is-logged-in')
+    @UseGuards(AuthGuard)
+    isLoggedIn(@Req() request: Request & { session: { userId: string }}): boolean {
+        return true;
+    }
+    @Post('log-in')
+    async logIn(@Body() logInDto: LogInDto, @Req() request: Request ): Promise<boolean | void> {
+        const user = await this.usersService.logIn(logInDto);
+        if (user) {
+            (request.session as any).userId = user.id;
+            return true;
+        }
+        return false;
     }
 
     @Post('sign-in')
