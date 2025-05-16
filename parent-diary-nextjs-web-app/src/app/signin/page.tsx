@@ -23,7 +23,7 @@ export default function SignIn() {
           submitSignIn(new FormData(e.currentTarget), showAlert, setFormErrors, formErrors, setLoading);
         }}
       >
-        <h1 className="h3 mb-3 fw-normal">Parent Diary sign in</h1>
+        <h1 className="h3 mb-3 fw-normal">Parent Diary sign up</h1>
         <div className="form-floating">
           <Form.Control
             type="email"
@@ -88,9 +88,8 @@ export default function SignIn() {
           contain at least one uppercase letter and one number.</small>
         </div>
         <button disabled={loading}   className="btn btn-primary w-100 py-2" type="submit">
-          {loading ? "Signing in..." : "Sign in"}
+          {loading ? "Signing up..." : "Sign up"}
         </button>
-        <p className="mt-5 mb-3 text-body-secondary">© 2025</p>
       </Form>
     </main>
   );

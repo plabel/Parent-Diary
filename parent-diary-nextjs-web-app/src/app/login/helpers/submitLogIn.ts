@@ -1,7 +1,7 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
-import { validateSignin } from "./signin.validation";
+import { validateLogin } from "./login.validation";
 
-export async function submitSignIn(
+export async function submitLogIn(
   formData: FormData,
   showAlert: (variant: string, message: string) => void,
   setFormErrors: (formErrors: Record<string, boolean>) => void,
@@ -9,11 +9,9 @@ export async function submitSignIn(
   setLoading: (loading: boolean) => void
 ): Promise<void> {
   const email = formData.get("email");
-  const firstName = formData.get("firstName");
-  const lastName = formData.get("lastName");
   const password = formData.get("password");
-  const payload = { email, firstName, lastName, password };
-  const { formErrors, isValid } = validateSignin(payload);
+  const payload = { email, password };
+  const { formErrors, isValid } = validateLogin(payload);
   const updatedFormErrors = {
     ...formErrorsState,
     ...formErrors,
@@ -25,7 +23,7 @@ export async function submitSignIn(
   }
 
   const {data, error} = await fetchWrapper<boolean>(
-    `${process.env.NEXT_PUBLIC_REST_API_URL}/users/sign-in`,
+    `${process.env.NEXT_PUBLIC_REST_API_URL}/users/log-in`,
     {
       method: "POST",
       headers: {
@@ -37,10 +35,10 @@ export async function submitSignIn(
   if (data) {
     showAlert(
       "success",
-      "Sign in successful, please check your email for a confirmation link"
+      "Log in successful"
     );
   } else {
-    showAlert("danger", error?.message ?? "Sign in failed");
+    showAlert("danger", error?.message ?? "Log in failed");
   }
   setLoading(false);
 }
