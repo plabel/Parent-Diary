@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
 import { SignInDto } from './dto/sign-in.dto';
@@ -6,7 +6,6 @@ import { randomBytes } from 'crypto';
 import { EmailService } from '../email/email.service';
 import { LogInDto } from './dto/log-in.dto';
 import { Request } from 'express';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
@@ -15,10 +14,11 @@ export class UsersController {
     confirmEmail(@Query('token') token: string): Promise<boolean> {
         return this.usersService.confirmEmail(token);
     }
-    @Get('is-logged-in')
-    @UseGuards(AuthGuard)
-    isLoggedIn(@Req() request: Request & { session: { userId: string }}): boolean {
-        return true;
+    @Get('current-user')
+    getCurrentUser(@Req() request: Request & { session: { userId: string }}): unknown | null {
+        return !!request?.session?.userId ? {
+            userId: request.session.userId,
+        } : null;
     }
     @Post('log-in')
     async logIn(@Body() logInDto: LogInDto, @Req() request: Request ): Promise<boolean | void> {

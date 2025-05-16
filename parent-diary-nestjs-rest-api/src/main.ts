@@ -13,6 +13,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
   app.enableCors({
     origin: process.env.NEXT_JS_FRONT_URL,
+    credentials: true,
   });
   app.use(
     session({
