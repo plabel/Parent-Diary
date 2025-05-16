@@ -24,8 +24,8 @@ export class UsersService {
     return encryptedSecretKey;
   }
   decryptSecretKey(encryptedSecretKey: string): string {
-    const secretKey = AES.decrypt(encryptedSecretKey, this.configService.get('master_key')).toString(enc.Utf8);
-    return secretKey;
+    const secretKeyRaw = AES.decrypt(encryptedSecretKey, this.configService.get('master_key')).toString(enc.Utf8);
+    return Buffer.from(secretKeyRaw, 'hex').toString();
   }
 
   hashPassword(password: string, salt: string): string {
