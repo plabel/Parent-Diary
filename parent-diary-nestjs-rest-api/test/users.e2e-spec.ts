@@ -35,7 +35,7 @@ describe('UsersController (e2e)', () => {
       .expect(500);   
   });
 
-  it('/sign-in (POST)', async () => {
+  it('/sign-in (POST) and /log-in (POST)', async () => {
     const email = Date.now() + '.test@test.com';
     const response = await request(app.getHttpServer())
       .post('/users/sign-in')
@@ -47,5 +47,15 @@ describe('UsersController (e2e)', () => {
       })
       .expect(201);
     expect(response.text).toBe("true");
+    const responseLogin = await request(app.getHttpServer())
+      .post('/users/log-in')
+      .send({
+        email,
+        password: 'Password123!'
+      })
+      .expect(201);
+    // false because the user has no yet confirmed his email
+    expect(responseLogin.text).toBe("false");
   });
+
 });
