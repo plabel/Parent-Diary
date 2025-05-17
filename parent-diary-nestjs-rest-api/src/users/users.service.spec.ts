@@ -9,27 +9,26 @@ import { confirmEmailTestCases } from './confirmEmail.fixtures';
 
 describe('UsersService', () => {
   let service: UsersService;
+  let module: TestingModule;
   const masterKey = '1234567890_master_key';
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService, {
-        provide: ConfigService,
-        useValue: {
-          get: jest.fn().mockReturnValue(masterKey),
-        },
-      }, {
-        provide: getModelToken(User),
-        useValue: {
-          create: jest.fn(),
-          update: (_, {where}) => {
-            if (where.id === '') return false;
-            else return {
-              id: where.id,
-            };
+    module = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn().mockReturnValue(masterKey),
           },
         },
-      }],
+        {
+          provide: getModelToken(User),
+          useValue: {
+            create: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
@@ -43,25 +42,38 @@ describe('UsersService', () => {
     const password = 'password';
     const salt = 'salt';
     const hashedPassword = service.hashPassword(password, salt);
-    expect(hashedPassword).toEqual('21719e826e1d860a3ed42a24817f241fc369a0e4602a602f53b7b04da397c1a8');
+    expect(hashedPassword).toEqual(
+      '21719e826e1d860a3ed42a24817f241fc369a0e4602a602f53b7b04da397c1a8',
+    );
   });
 
   it('should decrypt generated secret key', () => {
     const encryptedSecretKey = service.generateEncryptedSecretKey();
-    const decryptedSecretKey = service.decryptSecretKey(encryptedSecretKey)
+    const decryptedSecretKey = service.decryptSecretKey(encryptedSecretKey);
     // Because the IV are different, we need to encrypt the decrypted secret key again to be able to make a comparison
-    const encryptedSecretKey2 = AES.encrypt(decryptedSecretKey, masterKey).toString(enc.Utf8)
-    const decryptedSecretKey2 = service.decryptSecretKey(encryptedSecretKey2)
-    expect(decryptedSecretKey).toEqual(decryptedSecretKey2)
+    const encryptedSecretKey2 = AES.encrypt(
+      decryptedSecretKey,
+      masterKey,
+    ).toString(enc.Utf8);
+    const decryptedSecretKey2 = service.decryptSecretKey(encryptedSecretKey2);
+    expect(decryptedSecretKey).toEqual(decryptedSecretKey2);
   });
 
   it.each(confirmEmailTestCases)('$description', async ({ token }) => {
     try {
+      jest
+        .spyOn(module.get(getModelToken(User)), 'update')
+        .mockImplementation((_, { where }) => {
+          if (where.id === '') return false;
+          else
+            return {
+              id: where.id,
+            };
+        });
       const result = await service.confirmEmail(token);
       expect(result).toEqual(true);
     } catch (error) {
       expect(error).toEqual(new Error('User not found'));
     }
   });
-
 });
