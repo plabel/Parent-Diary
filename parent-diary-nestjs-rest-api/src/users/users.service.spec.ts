@@ -6,6 +6,7 @@ import * as AES from 'crypto-js/aes';
 import { User } from './user.model';
 import { getModelToken } from '@nestjs/sequelize';
 import { confirmEmailTestCases } from './confirmEmail.fixtures';
+import { loginTestCases } from './login.fixtures';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -26,6 +27,8 @@ describe('UsersService', () => {
           provide: getModelToken(User),
           useValue: {
             create: jest.fn(),
+            findOne: jest.fn(),
+            update: jest.fn(),
           },
         },
       ],
@@ -59,21 +62,23 @@ describe('UsersService', () => {
     expect(decryptedSecretKey).toEqual(decryptedSecretKey2);
   });
 
-  it.each(confirmEmailTestCases)('$description', async ({ token }) => {
+  it.each(confirmEmailTestCases)('$description', async ({ token, updateResolvedValue }) => {
     try {
       jest
         .spyOn(module.get(getModelToken(User)), 'update')
-        .mockImplementation((_, { where }) => {
-          if (where.id === '') return false;
-          else
-            return {
-              id: where.id,
-            };
-        });
+        .mockResolvedValue(updateResolvedValue);
       const result = await service.confirmEmail(token);
       expect(result).toEqual(true);
     } catch (error) {
       expect(error).toEqual(new Error('User not found'));
     }
   });
+
+  it.each(loginTestCases)('$description', async ({ logInDto, findOneResolvedValue, expectedResult }) => {
+    jest
+      .spyOn(module.get(getModelToken(User)), 'findOne')
+      .mockResolvedValue(findOneResolvedValue);
+    const result = await service.logIn(logInDto);
+    expect(result).toEqual(expectedResult);
+});
 });
