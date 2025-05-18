@@ -29,6 +29,11 @@ export class UsersController {
         }
         return false;
     }
+    @Post('log-out')
+    async logOut(@Req() request: Request ): Promise<boolean | void> {
+        (request.session as any).userId = null;
+        return true;
+    }
 
     @Post('sign-in')
     async signIn(@Body() signInDto: SignInDto): Promise<boolean | void> {
