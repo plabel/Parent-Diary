@@ -1,6 +1,6 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import { validateLogin } from "./login.validation";
-
+import { redirect } from "next/navigation";
 export async function submitLogIn(
   formData: FormData,
   showAlert: (variant: string, message: string) => void,
@@ -38,6 +38,7 @@ export async function submitLogIn(
       "success",
       "Log in successful"
     );
+    redirect("/home");
   } else {
     showAlert("danger", error?.message ?? "Log in failed");
   }
