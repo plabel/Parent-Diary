@@ -18,6 +18,12 @@ export class UsersService {
   create(user: Omit<User, 'id' | 'isEmailVerified'>): Promise<User> {
     return this.userModel.create(user);
   }
+  async delete(id: string): Promise<boolean> {
+    const result = await this.userModel.destroy({
+      where: { id },
+    });
+    return result === 1;
+  }
 
   generateEncryptedSecretKey(): string {
     const secretKey = randomBytes(32).toString('hex');

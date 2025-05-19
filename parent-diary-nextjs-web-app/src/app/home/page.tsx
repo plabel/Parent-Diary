@@ -28,7 +28,7 @@ export default function LogIn() {
                 <li className="nav-item"> <a className="nav-link" href="#">Link</a> </li>
                 <li className="nav-item"> <a className="nav-link disabled" aria-disabled="true">Disabled</a> </li>
               </ul>
-              <button onClick={() => submitLogOut(showAlert)} className="btn btn-outline-warning" type="submit">Log out</button>
+              <button onClick={() => submitLogOut(showAlert)} className="btn btn-outline-secondary" type="submit">Log out</button>
               <form className="d-flex" role="search">
                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                 <button className="btn btn-outline-success" type="submit">Search</button>

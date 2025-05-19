@@ -102,4 +102,27 @@ describe('UsersController (e2e)', () => {
     expect(responseCurrentUserAfterLogOut.text).toBe("");
   });
 
+  it(`
+      /log-in (POST) and then /delete (DELETE) user
+    `, async () => {
+    const email = 'example@example.com';
+        
+    // Create a reusable agent that maintains cookies between requests
+    const agent = request.agent(app.getHttpServer());
+
+    const responseLogin = await agent
+      .post('/users/log-in')
+      .send({
+        email,
+        password: 'Password1234'
+      })
+      .expect(201);
+    expect(responseLogin.text).toBe("true");
+
+    const responseDeleteUser = await agent
+      .delete('/users/current-user')
+      .expect(200);
+    expect(responseDeleteUser.text).toBe("true");
+  });
+
 });

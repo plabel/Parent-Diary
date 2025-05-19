@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Post, Query, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
 import { SignInDto } from './dto/sign-in.dto';
@@ -19,6 +19,16 @@ export class UsersController {
         return !!request?.session?.userId ? {
             userId: request.session.userId,
         } : null;
+    }
+    @Delete('current-user')
+    async deleteUser(@Req() request: Request & { session: { userId: string }}): Promise<boolean | void> {
+        const userId = (request.session as any).userId;
+        if (!userId) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
+        const result = await this.usersService.delete(userId);
+        (request.session as any).userId = null;
+        return result;
     }
     @Post('log-in')
     async logIn(@Body() logInDto: LogInDto, @Req() request: Request ): Promise<boolean | void> {
