@@ -36,4 +36,14 @@ export class EmailService {
         `;
         await this.sendEmail(to, 'Confirm email', html);
     }
+    async sendPasswordResetEmail(to: string, token: string) {
+        const encryptedToken = AES.encrypt(token, this.configService.get('master_key')).toString(enc.Utf8);
+        const encodedToken = encodeURIComponent(encryptedToken);
+        const url = `${process.env.NEXT_JS_FRONT_URL}/users/reset-password/${encodedToken}`;
+        const html = `
+            Please reset your password by clicking the link below:
+            ${url}
+        `;
+        await this.sendEmail(to, 'Reset password', html);
+    }
 }

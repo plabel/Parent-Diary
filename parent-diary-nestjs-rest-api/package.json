@@ -17,15 +17,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "npm run db:migrate:undo:all && npm run db:migrate && npm run db:seed:all && jest --config ./test/jest-e2e.json",
-    "test:e2e:debug": "node --inspect node_modules/.bin/jest --config ./test/jest-e2e.json --runInBand",
+    "test:e2e": "npm run db:regenerate && jest --config ./test/jest-e2e.json --runInBand",
+    "test:e2e:debug": "npm run db:regenerate && node --inspect node_modules/.bin/jest --config ./test/jest-e2e.json --runInBand",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
     "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "db:seed": "npx sequelize-cli db:seed",
     "db:seed:all": "npx sequelize-cli db:seed:all",
     "db:seed:undo": "npx sequelize-cli db:seed:undo",
-    "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all"
+    "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all",
+    "db:regenerate": "npm run db:migrate:undo:all && npm run db:migrate && npm run db:seed:all"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

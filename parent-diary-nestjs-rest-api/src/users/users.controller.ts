@@ -6,6 +6,7 @@ import { randomBytes } from 'crypto';
 import { EmailService } from '../email/email.service';
 import { LogInDto } from './dto/log-in.dto';
 import { Request } from 'express';
+import { ResetPasswordDto } from './dto/reset-password-dto';
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
@@ -34,7 +35,7 @@ export class UsersController {
     async logIn(@Body() logInDto: LogInDto, @Req() request: Request ): Promise<boolean | void> {
         const user = await this.usersService.logIn(logInDto);
         if (user) {
-            (request.session as any).userId = user.id;
+            (request.session as any).userId = user.dataValues.id;
             return true;
         }
         return false;
@@ -43,6 +44,18 @@ export class UsersController {
     async logOut(@Req() request: Request ): Promise<boolean | void> {
         (request.session as any).userId = null;
         return true;
+    }
+    @Post('send-reset-password-email')
+    async sendResetPasswordEmail(@Query('email') email: string): Promise<boolean | void> {
+        const user = await this.usersService.getUserByEmail(email);
+        if (user) {
+            await this.emailService.sendPasswordResetEmail(user.dataValues.email, user.dataValues.id + "");
+        }
+        return true;
+    }
+    @Post('reset-password')
+    async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<boolean> {
+        return this.usersService.resetPassword(resetPasswordDto.token, resetPasswordDto.password);
     }
 
     @Post('sign-in')

@@ -8,8 +8,10 @@ import { randomBytes } from 'crypto';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication<App>;
+  const secret = randomBytes(20).toString('hex');
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -17,7 +19,7 @@ describe('UsersController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     app.use(
       session({
-        secret: randomBytes(20).toString('hex'),
+        secret,
         resave: false,
         saveUninitialized: false,
       }),
@@ -26,17 +28,17 @@ describe('UsersController (e2e)', () => {
   });
 
 
-  it('/confirm-email (GET) bad token', () => {
-    request(app.getHttpServer())
+  it('/confirm-email (GET) bad token', async () => {
+    await request(app.getHttpServer())
       .get('/users/confirm-email?token=badToken')
       .expect(500);   
   });
 
-  it('/sign-in (POST) invalid body', () => {
-    request(app.getHttpServer())
+  it('/sign-in (POST) invalid body', async () => {
+    await request(app.getHttpServer())
       .post('/users/sign-in')
       .send({
-        email: 'test@test.com',
+        email: 'test',
         firstName: 'test',
         lastName: 'test',
         password: ''
@@ -103,9 +105,32 @@ describe('UsersController (e2e)', () => {
   });
 
   it(`
-      /log-in (POST) and then /delete (DELETE) user
+      /send-reset-password-email (POST) and then /reset-password (POST)
     `, async () => {
     const email = 'example@example.com';
+    // Create a reusable agent that maintains cookies between requests
+    const agent = request.agent(app.getHttpServer());
+    const spy = jest.spyOn(global, 'encodeURIComponent')
+
+    const responseSendResetPasswordEmail = await agent
+      .post(`/users/send-reset-password-email?email=${email}`)
+      .expect(201);
+    expect(responseSendResetPasswordEmail.text).toBe("true");
+    const token = spy.mock.lastCall?.[0] ?? "";
+    const responseResetPassword = await agent
+      .post('/users/reset-password')
+      .send({
+        token: token,
+        password: 'Password1234'
+      })
+      .expect(201);
+    expect(responseResetPassword.text).toBe("true");
+  });
+
+  it(`
+      /log-in (POST) and then /delete (DELETE) user
+    `, async () => {
+    const email = 'example2@example.com';
         
     // Create a reusable agent that maintains cookies between requests
     const agent = request.agent(app.getHttpServer());
