@@ -1,18 +1,15 @@
 "use client";
 import { Form } from "react-bootstrap";
-  import { useAlert } from "../_global/alert/alert-provider";
-  import { submitLogIn } from "./helpers/submitLogIn";
+import { useAlert } from "@/app/_global/alert/alert-provider";
 import { useState } from "react";
+import { sendResetPasswordEmail } from "./helpers/sendResetPasswordEmail";
 import Link from "next/link";
 
-export default function LogIn() {
+export default function SendResetPasswordEmail() {
   const showAlert = useAlert();
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, boolean>>({
     email: false,
-    firstName: false,
-    lastName: false,
-    password: false,
   });
   return (
     <main className={`centered-main w-100 m-auto`}>
@@ -21,10 +18,10 @@ export default function LogIn() {
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           setLoading(true);
-          submitLogIn(new FormData(e.currentTarget), showAlert, setFormErrors, formErrors, setLoading);
+          sendResetPasswordEmail(new FormData(e.currentTarget), showAlert, setFormErrors, formErrors, setLoading);
         }}
       >
-        <h1 className="h3 mb-3 fw-normal">Parent Diary log in</h1>
+        <h1 className="h3 mb-3 fw-normal">Parent Diary send reset password email</h1>
         <div className="form-floating mb-2">
           <Form.Control
             type="email"
@@ -40,26 +37,11 @@ export default function LogIn() {
             Please provide a valid email address.
           </Form.Control.Feedback>
         </div>
-        <div className="form-floating mb-2">
-          <Form.Control
-            type="password"
-            name="password"
-            className="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            required
-            isInvalid={formErrors.password}
-          />
-          <label htmlFor="floatingPassword">Password </label>
-        </div>
         <button disabled={loading}   className="btn btn-primary w-100 py-2 mb-2" type="submit">
-          {loading ? "Logging in..." : "Log in"}
+          {loading ? "Sending reset password email..." : "Send reset password email"}
         </button>
       </Form>
-      <div className="d-flex justify-content-between">
-        <Link href="/signin">Sign up</Link>
-        <Link href="/users/send-reset-password-email">Forgot password?</Link>
-      </div>
+      <Link href="/login">Back to login</Link>
     </main>
   );
 }

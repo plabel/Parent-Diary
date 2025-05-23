@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import { useAlert } from "../_global/alert/alert-provider";
 import { submitSignIn } from "./helpers/submitSignIn";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function SignIn() {
   const showAlert = useAlert();
@@ -24,7 +25,7 @@ export default function SignIn() {
         }}
       >
         <h1 className="h3 mb-3 fw-normal">Parent Diary sign up</h1>
-        <div className="form-floating">
+        <div className="form-floating mb-2">
           <Form.Control
             type="email"
             name="email"
@@ -39,7 +40,7 @@ export default function SignIn() {
             Please provide a valid email address.
           </Form.Control.Feedback>
         </div>
-        <div className="form-floating">
+        <div className="form-floating mb-2">
           <Form.Control
             type="text"
             name="firstName"
@@ -54,7 +55,7 @@ export default function SignIn() {
             Please provide a valid first name.
           </Form.Control.Feedback>
         </div>
-        <div className="form-floating">
+        <div className="form-floating mb-2">
           <Form.Control
             type="text"
             name="lastName"
@@ -69,7 +70,7 @@ export default function SignIn() {
             Please provide a valid last name.
           </Form.Control.Feedback>
         </div>
-        <div className="form-floating">
+        <div className="form-floating mb-2">
           <Form.Control
             type="password"
             name="password"
@@ -87,10 +88,11 @@ export default function SignIn() {
           <small>At least 12 characters. Must
           contain at least one uppercase letter and one number.</small>
         </div>
-        <button disabled={loading}   className="btn btn-primary w-100 py-2" type="submit">
+        <button disabled={loading}   className="btn btn-primary w-100 py-2 mb-2" type="submit">
           {loading ? "Signing up..." : "Sign up"}
         </button>
       </Form>
+      <Link href="/login">Login</Link>
     </main>
   );
 }

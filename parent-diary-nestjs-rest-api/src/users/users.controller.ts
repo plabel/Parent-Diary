@@ -54,8 +54,8 @@ export class UsersController {
         return true;
     }
     @Post('reset-password')
-    async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<boolean> {
-        return this.usersService.resetPassword(resetPasswordDto.token, resetPasswordDto.password);
+    async resetPassword(@Query('token') token: string, @Body() resetPasswordDto: ResetPasswordDto): Promise<boolean> {
+        return this.usersService.resetPassword(token, resetPasswordDto.password);
     }
 
     @Post('sign-in')

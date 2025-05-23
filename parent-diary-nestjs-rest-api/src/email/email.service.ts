@@ -27,7 +27,11 @@ export class EmailService {
         return info.messageId;
     }
     async sendConfirmationEmail(to: string, token: string) {
-        const encryptedToken = AES.encrypt(token, this.configService.get('master_key')).toString(enc.Utf8);
+        const tokenObj = {
+            token,
+            creationDate: new Date().getTime()
+        }
+        const encryptedToken = AES.encrypt(JSON.stringify(tokenObj), this.configService.get('master_key')).toString(enc.Utf8);
         const encodedToken = encodeURIComponent(encryptedToken);
         const url = `${process.env.NEXT_JS_FRONT_URL}/users/confirm-email/${encodedToken}`;
         const html = `
@@ -37,7 +41,11 @@ export class EmailService {
         await this.sendEmail(to, 'Confirm email', html);
     }
     async sendPasswordResetEmail(to: string, token: string) {
-        const encryptedToken = AES.encrypt(token, this.configService.get('master_key')).toString(enc.Utf8);
+        const tokenObj = {
+            token,
+            creationDate: new Date().getTime()
+        }
+        const encryptedToken = AES.encrypt(JSON.stringify(tokenObj), this.configService.get('master_key')).toString(enc.Utf8);
         const encodedToken = encodeURIComponent(encryptedToken);
         const url = `${process.env.NEXT_JS_FRONT_URL}/users/reset-password/${encodedToken}`;
         const html = `

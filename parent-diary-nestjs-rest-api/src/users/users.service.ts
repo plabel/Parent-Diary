@@ -62,13 +62,17 @@ export class UsersService {
   async resetPassword(token: string, password: string): Promise<boolean> {
     const buffer = AES.decrypt(token, this.configService.get('master_key'));
     const decryptedToken = Buffer.from(buffer.toString(enc.Utf8), 'hex').toString();
+    const tokenObj = JSON.parse(decryptedToken);
+    if (tokenObj.creationDate < Date.now() - 1000 * 60 * this.configService.get('token_expiration_time_in_minutes')) {
+      throw new Error('Token expired');
+    }
     const salt: string = randomBytes(20).toString('hex');
     const user = await this.userModel.update({
       passwordHash: this.hashPassword(password, salt),
       salt: salt,
       encryptedSecretKey: this.generateEncryptedSecretKey()
     }, {
-      where: { id: decryptedToken }
+      where: { id: tokenObj.token }
     });
     if (!user) {
       throw new Error('User not found');
@@ -78,11 +82,15 @@ export class UsersService {
   async confirmEmail(token: string): Promise<boolean> {
     const buffer = AES.decrypt(token, this.configService.get('master_key'));
     const decryptedToken = Buffer.from(buffer.toString(enc.Utf8), 'hex').toString();
+    const tokenObj = JSON.parse(decryptedToken);
+    if (tokenObj.creationDate < Date.now() - 1000 * 60 * this.configService.get('token_expiration_time_in_minutes')) {
+      throw new Error('Token expired');
+    }
     const user = await this.userModel.update({
       isEmailVerified: true
     }, {
       where: {
-        id: decryptedToken
+        id: tokenObj.token
       }
     });
     if (!user) {

@@ -12,3 +12,4 @@ email:
   secure: false
   auth:
     user: no-reply@parent-diary.ovh
+token_expiration_time_in_minutes: 15
