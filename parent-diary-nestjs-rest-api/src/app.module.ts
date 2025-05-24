@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { EmailService } from './email/email.service';
 import { LogEntryService } from './log-entry/log-entry.service';
 import configuration from './config/config';
+import { LogEntryController } from './log-entry/log-entry.controller';
+import { LogEntryModule } from './log-entry/log-entry.module';
 
 @Module({
   imports: [
@@ -16,8 +18,9 @@ import configuration from './config/config';
     }),
     DatabaseModule,
     UsersModule,
+    LogEntryModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, EmailService, LogEntryService],
+  controllers: [AppController ],
+  providers: [AppService, EmailService],
 })
 export class AppModule {}
