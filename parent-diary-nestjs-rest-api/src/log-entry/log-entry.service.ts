@@ -19,8 +19,8 @@ export class LogEntryService {
         return this.logEntryModel.findAll({ where: { userId }, limit, offset });
       } 
 
-      async deleteLogEntry(id: number): Promise<boolean> {
-        const result = await this.logEntryModel.destroy({ where: { id } });
+      async deleteLogEntry(id: number, userId: number): Promise<boolean> {
+        const result = await this.logEntryModel.destroy({ where: { id, userId } });
         return result === 1;
       }
       
