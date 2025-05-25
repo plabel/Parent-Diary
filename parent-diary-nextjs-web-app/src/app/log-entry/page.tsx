@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useAlert } from "../_global/alert/alert-provider";
-import createLogEntry from "./createLogEntry";
+import createLogEntry from "./helpers/createLogEntry";
 
 export default function LogEntryPage() {
   const showAlert = useAlert();

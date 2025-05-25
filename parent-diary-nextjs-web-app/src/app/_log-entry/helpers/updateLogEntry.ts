@@ -1,13 +1,16 @@
 import { redirect } from "next/navigation";
-import { fetchWrapper } from "../_global/helpers/fetchWrapper";
-import { validateLogEntry } from "./log-entry.validation";
+import { fetchWrapper } from "../../_global/helpers/fetchWrapper";
+import { validateLogEntry } from "@/app/log-entry/helpers/log-entry.validation";
 
-export default async function createLogEntry(
+export default async function updateLogEntry(
+  id: number,
   formData: FormData,
   showAlert: (variant: string, message: string) => void,
   setFormErrors: (formErrors: Record<string, boolean>) => void,
   formErrorsState: Record<string, boolean>,
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
+  refreshLogEntries: () => Promise<void>,
+  handleClose: () => void
 ): Promise<void> {
   const entry = formData.get("entry");
   const payload = { entry };
@@ -23,9 +26,9 @@ export default async function createLogEntry(
   }
 
   const { data, error } = await fetchWrapper<boolean>(
-    `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry`,
+    `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry/${id}`,
     {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -34,10 +37,11 @@ export default async function createLogEntry(
     }
   );
   if (data) {
-    showAlert("success", "Log entry created successfully");
-    redirect("/home");
+    showAlert("success", "Log entry updated successfully");
+    refreshLogEntries();
+    handleClose();
   } else {
-    showAlert("danger", error?.message ?? "Log entry creation failed");
+    showAlert("danger", error?.message ?? "Log entry update failed");
   }
   setLoading(false);
 }

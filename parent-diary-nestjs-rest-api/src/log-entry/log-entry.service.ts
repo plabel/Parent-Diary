@@ -23,5 +23,10 @@ export class LogEntryService {
         const result = await this.logEntryModel.destroy({ where: { id, userId } });
         return result === 1;
       }
+
+      async updateLogEntry(id: number, logEntry: Partial<LogEntry>, userId: number): Promise<LogEntry | null> {
+        await this.logEntryModel.update(logEntry, { where: { id, userId } });
+        return this.logEntryModel.findByPk(id);
+      }
       
 }

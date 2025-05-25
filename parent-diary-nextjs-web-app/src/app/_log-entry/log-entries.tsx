@@ -42,8 +42,10 @@ export default function LogEntries() {
         <LogEntryCard
           key={logEntry.id}
           entry={logEntry.entry}
+          id={logEntry.id}
           createdAt={logEntry.createdAt}
           deleteFn={(setLoading) => deleteLogEntry(logEntry.id, setLoading, showAlert, fetchLogEntries)}
+          refreshLogEntries={fetchLogEntries}
         />
       ))}
       {logEntries?.length === 0 && <p>No log entries found</p>}
