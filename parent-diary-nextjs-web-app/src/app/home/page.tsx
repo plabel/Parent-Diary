@@ -5,6 +5,7 @@ import { submitLogOut } from "../login/helpers/submitLogout";
 import { useAlert } from "../_global/alert/alert-provider";
 import DeleteUserModal from "../_users/delete-user-modal";
 import LogEntries from "../_log-entry/log-entries";
+import Link from "next/link";
 export default function LogIn() {
   const showAlert = useAlert();
   const [userId, setUserId] = useState<string | null>(null);
@@ -29,6 +30,7 @@ export default function LogIn() {
                 <li className="nav-item"> <a className="nav-link active" aria-current="page" href="#">Home</a> </li>
               </ul>
               <DeleteUserModal />
+              <Link href="/log-entry">New log entry</Link>
               <button onClick={() => submitLogOut(showAlert)} className="btn btn-outline-secondary" type="submit">Log out</button>
               <form className="d-flex" role="search">
                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -39,7 +41,7 @@ export default function LogIn() {
         </nav>
       </header>
       <main className={`w-100 m-auto`}>
-        <div className="container">
+        <div className="container pt-5">
           <LogEntries />
         </div>
       </main>

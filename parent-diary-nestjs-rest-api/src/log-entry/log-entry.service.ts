@@ -9,7 +9,7 @@ export class LogEntryService {
         private logEntryModel: typeof LogEntry,
       ) {}
 
-      async createLogEntry(logEntry: Omit<LogEntry, 'id'>): Promise<LogEntry> {
+      async createLogEntry(logEntry: Partial<LogEntry>): Promise<LogEntry> {
         return this.logEntryModel.create(logEntry);
       }
 

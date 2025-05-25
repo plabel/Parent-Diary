@@ -13,7 +13,7 @@ export default function LogEntryCard({
   const [loading, setLoading] = useState(false);
   return (
     <div className="card w-100 mb-2">
-      <div className="card-header">Created at: {createdAt}</div>
+      <div className="card-header">Created at: {new Date(createdAt).toLocaleString()}</div>
       <div className="card-body">
         <p>{entry}</p>
       </div>
