@@ -14,8 +14,8 @@ export async function deleteLogEntry(
     }
   );
   if (data) {
+    await fetchLogEntries();
     showAlert("success", "Log entry deleted successfully");
-    fetchLogEntries();
   } else {
     showAlert("danger", error?.message ?? "Log entry deletion failed");
   }

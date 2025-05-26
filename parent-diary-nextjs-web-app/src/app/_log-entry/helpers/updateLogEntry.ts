@@ -37,8 +37,8 @@ export default async function updateLogEntry(
     }
   );
   if (data) {
+    await refreshLogEntries();
     showAlert("success", "Log entry updated successfully");
-    refreshLogEntries();
     handleClose();
   } else {
     showAlert("danger", error?.message ?? "Log entry update failed");
