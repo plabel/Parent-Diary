@@ -22,7 +22,7 @@ function UpdateLogEntryModal({ entry, id, refreshLogEntries }: UpdateLogEntryMod
   return (
     <>
       <button
-        className="btn btn-outline-primary rounded-circle p-2 lh-1 me-1"
+        className="btn btn-outline-secondary rounded-circle p-2 lh-1 me-1"
         type="button"
         onClick={handleShow}
       >

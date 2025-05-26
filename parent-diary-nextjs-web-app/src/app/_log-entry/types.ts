@@ -1,5 +1,5 @@
 export type LogEntry = {
-    id: string;
+    id: number;
     entry: string;
     createdAt: string;
 }

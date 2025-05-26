@@ -5,10 +5,12 @@ import { submitLogOut } from "../login/helpers/submitLogout";
 import { useAlert } from "../_global/alert/alert-provider";
 import DeleteUserModal from "../_users/delete-user-modal";
 import LogEntries from "../_log-entry/log-entries";
-import Link from "next/link";
+import { Nav, NavDropdown } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 export default function LogIn() {
   const showAlert = useAlert();
-  const [userId, setUserId] = useState<string | null>(null);
+  const [_userId, setUserId] = useState<string | null>(null);
   useEffect(() => {
     const fetchUserId = async () => {
       const userId = await verifySession();
@@ -19,26 +21,24 @@ export default function LogIn() {
   return (
     <>
       <header>
-        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">Parent Diary</a>
-            <button className="navbar-toggler" type="button">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarCollapse">
-              <ul className="navbar-nav me-auto mb-2 mb-md-0">
-                <li className="nav-item"> <a className="nav-link active" aria-current="page" href="#">Home</a> </li>
-              </ul>
-              <DeleteUserModal />
-              <Link href="/log-entry">New log entry</Link>
-              <button onClick={() => submitLogOut(showAlert)} className="btn btn-outline-secondary" type="submit">Log out</button>
-              <form className="d-flex" role="search">
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="btn btn-outline-success" type="submit">Search</button>
-              </form>
-            </div>
-          </div>
-        </nav>
+        <Navbar expand="lg" className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <Container>
+            <Navbar.Brand href="#home">Parent Diary</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link href="/home">Home</Nav.Link>
+                <Nav.Link href="/log-entry">New log entry</Nav.Link>
+                <NavDropdown title="User" id="basic-nav-dropdown">
+                  <NavDropdown.Item onClick={() => submitLogOut(showAlert)}>
+                    Log out
+                  </NavDropdown.Item>
+                  <DeleteUserModal />
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
       </header>
       <main className={`w-100 m-auto`}>
         <div className="container pt-5">

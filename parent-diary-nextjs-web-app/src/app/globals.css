@@ -6,3 +6,7 @@ body {
   max-width: 330px;
   padding: 1rem;
 }
+.active> .page-link {
+  background-color: var(--bs-secondary) !important;
+  color: white !important;
+}

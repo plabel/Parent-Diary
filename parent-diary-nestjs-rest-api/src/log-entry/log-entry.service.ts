@@ -16,7 +16,7 @@ export class LogEntryService {
       async getLogEntries(userId: number, page: number): Promise<LogEntry[]> {
         const limit = 10;
         const offset = (page - 1) * limit;
-        return this.logEntryModel.findAll({ where: { userId }, limit, offset });
+        return this.logEntryModel.findAll({ where: { userId }, limit, offset, order: [['createdAt', 'DESC']] });
       } 
 
       async deleteLogEntry(id: number, userId: number): Promise<boolean> {

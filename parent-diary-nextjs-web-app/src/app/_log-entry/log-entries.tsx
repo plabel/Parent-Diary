@@ -28,6 +28,7 @@ export default function LogEntries() {
         key={number}
         active={number === page}
         onClick={() => setPage(number)}
+        linkClassName="text-secondary border-secondary"
       >
         {number}
       </Pagination.Item>

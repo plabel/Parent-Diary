@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { deleteUser } from './helpers/deleteUser';
 import { useAlert } from '../_global/alert/alert-provider';
+import { NavDropdown } from 'react-bootstrap';
 
 function DeleteUserModal() {
   const [show, setShow] = useState(false);
@@ -13,10 +14,9 @@ function DeleteUserModal() {
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
+      <NavDropdown.Item onClick={handleShow}>
         Delete user
-      </Button>
-
+      </NavDropdown.Item>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete user</Modal.Title>

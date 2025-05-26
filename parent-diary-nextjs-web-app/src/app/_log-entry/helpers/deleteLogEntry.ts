@@ -1,7 +1,7 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 
 export async function deleteLogEntry(
-  id: string,
+  id: number,
   setLoading: (loading: boolean) => void,
   showAlert: (variant: string, message: string) => void,
   fetchLogEntries: () => void
