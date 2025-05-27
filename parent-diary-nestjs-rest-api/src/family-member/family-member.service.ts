@@ -12,4 +12,9 @@ export class FamilyMemberService {
   async getFamilyMembers(userId: number): Promise<FamilyMember[]> {
     return this.familyMemberModel.findAll({ where: { userId } });
   }
+
+  async deleteFamilyMember(id: number, userId: number): Promise<boolean> {
+    const result = await this.familyMemberModel.destroy({ where: { id, userId } });
+    return result === 1;
+  }
 }

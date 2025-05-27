@@ -1,9 +1,11 @@
+import DeleteFamilyMemberModal from "./delete-family-member-modal";
 
 
 export type FamilyMemberCardProps = {
   firstName: string;
   lastName: string;
   petName: string;
+  deleteFn: (setLoading: (loading: boolean) => void) => Promise<void>;
   id: number;
   refreshLogEntries: () => Promise<void>;
 };
@@ -12,6 +14,7 @@ export default function FamilyMemberCard({
   lastName,
   petName,
   id,
+  deleteFn,
   refreshLogEntries,
 }: FamilyMemberCardProps) {
   return (
@@ -21,6 +24,7 @@ export default function FamilyMemberCard({
         <p>{firstName} {lastName}</p>
       </div>
       <div className="card-footer">
+        <DeleteFamilyMemberModal deleteFn={deleteFn} />
       </div>
     </div>
   );
