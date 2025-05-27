@@ -3,24 +3,15 @@ import { useEffect, useState } from "react";
 import LogEntryCard from "./log-entry-card";
 import { LogEntry } from "./types";
 import Pagination from "react-bootstrap/Pagination";
-import { fetchWrapper } from "../_global/helpers/fetchWrapper";
 import { useAlert } from "../_global/alert/alert-provider";
 import { deleteLogEntry } from "./helpers/deleteLogEntry";
+import { fetchLogEntries } from "./helpers/fetchLogEntries";
 
 export default function LogEntries() {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [page, setPage] = useState(1);
   const showAlert = useAlert();
-  const fetchLogEntries = async () => {
-    const response = await fetchWrapper<LogEntry[]>(
-      `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry?page=${page}`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
-    setLogEntries(response.data);
-  };
+  // context for family members TODO
   let pageItems = [];
   for (let number = 1; number <= 5; number++) {
     pageItems.push(
@@ -35,7 +26,7 @@ export default function LogEntries() {
     );
   }
   useEffect(() => {
-    fetchLogEntries();
+    fetchLogEntries(setLogEntries, page);
   }, [page]);
   return (
     <div>
@@ -46,8 +37,12 @@ export default function LogEntries() {
           familyMembers={logEntry.familyMembers}
           id={logEntry.id}
           createdAt={logEntry.createdAt}
-          deleteFn={(setLoading) => deleteLogEntry(logEntry.id, setLoading, showAlert, fetchLogEntries)}
-          refreshLogEntries={fetchLogEntries}
+          deleteFn={(setLoading) =>
+            deleteLogEntry(logEntry.id, setLoading, showAlert, () =>
+              fetchLogEntries(setLogEntries, page)
+            )
+          }
+          refreshLogEntries={() => fetchLogEntries(setLogEntries, page)}
         />
       ))}
       {logEntries?.length === 0 && <p>No log entries found</p>}

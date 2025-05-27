@@ -3,14 +3,21 @@ import Modal from "react-bootstrap/Modal";
 import { useAlert } from "../_global/alert/alert-provider";
 import { Form } from "react-bootstrap";
 import updateLogEntry from "./helpers/updateLogEntry";
+import { FamilyMember } from "../_family-members/types";
 
 type UpdateLogEntryModalProps = {
   entry: string;
   id: number;
   refreshLogEntries: () => Promise<void>;
+  familyMembers: FamilyMember[];
 };
 
-function UpdateLogEntryModal({ entry, id, refreshLogEntries }: UpdateLogEntryModalProps) {
+function UpdateLogEntryModal({
+  entry,
+  id,
+  refreshLogEntries,
+  familyMembers,
+}: UpdateLogEntryModalProps) {
   const [show, setShow] = useState(false);
   const showAlert = useAlert();
   const [loading, setLoading] = useState(false);
@@ -39,7 +46,16 @@ function UpdateLogEntryModal({ entry, id, refreshLogEntries }: UpdateLogEntryMod
             onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
               e.preventDefault();
               setLoading(true);
-              updateLogEntry(id, new FormData(e.currentTarget), showAlert, setFormErrors, formErrors, setLoading, refreshLogEntries, handleClose);
+              updateLogEntry(
+                id,
+                new FormData(e.currentTarget),
+                showAlert,
+                setFormErrors,
+                formErrors,
+                setLoading,
+                refreshLogEntries,
+                handleClose
+              );
             }}
           >
             <div className="form-floating mb-2">
@@ -59,6 +75,19 @@ function UpdateLogEntryModal({ entry, id, refreshLogEntries }: UpdateLogEntryMod
               <Form.Control.Feedback type="invalid">
                 Please provide a valid log entry.
               </Form.Control.Feedback>
+            </div>
+            <div className="form-floating mb-2">
+              <h5>Family members</h5>
+              {familyMembers.map((familyMember) => (
+                <Form.Check // prettier-ignore
+                  key={familyMember.id}
+                  type={"checkbox"}
+                  checked
+                  name="familyMembers"
+                  value={familyMember.id}
+                  label={familyMember.petName}
+                />
+              ))}
             </div>
             <button
               disabled={loading}

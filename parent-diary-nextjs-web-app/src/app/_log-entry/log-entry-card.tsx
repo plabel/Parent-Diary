@@ -23,7 +23,7 @@ export default function LogEntryCard({
       <div className="card-header">
         Created at: {new Date(createdAt).toLocaleString()}
         {familyMembers.map((familyMember) => (
-          <span className="ms-1 badge text-bg-secondary">{familyMember.petName}</span>
+          <span key={familyMember.id} className="ms-1 badge text-bg-secondary">{familyMember.petName}</span>
         ))}
       </div>
       <div className="card-body">
@@ -31,7 +31,7 @@ export default function LogEntryCard({
       </div>
       <div className="card-footer">
         <DeleteLogEntryModal deleteFn={deleteFn} />
-        <UpdateLogEntryModal refreshLogEntries={refreshLogEntries} entry={entry} id={id} />
+        <UpdateLogEntryModal familyMembers={familyMembers} refreshLogEntries={refreshLogEntries} entry={entry} id={id} />
       </div>
     </div>
   );

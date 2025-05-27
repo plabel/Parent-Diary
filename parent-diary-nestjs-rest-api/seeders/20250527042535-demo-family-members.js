@@ -21,6 +21,22 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        firstName: 'Josh',
+        lastName: 'Doe',
+        petName: 'Jojo',
+        userId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        firstName: 'Dorian',
+        lastName: 'Doe',
+        petName: 'Dodo',
+        userId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         firstName: 'Alice',
         lastName: 'Doe',
         petName: 'Pumpkin',
