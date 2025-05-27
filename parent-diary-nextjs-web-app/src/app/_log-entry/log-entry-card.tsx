@@ -1,4 +1,3 @@
-import { useState } from "react";
 import UpdateLogEntryModal from "./update-log-entry-modal";
 import DeleteLogEntryModal from "./delete-log-entry-modal";
 

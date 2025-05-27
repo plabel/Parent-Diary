@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { verifySession } from "./helpers/verifySession";
 
 
-export default function AppHeader() {
+export default function AppHeader({ activeLink }: { activeLink: string }) {
     const [_userId, setUserId] = useState<string | null>(null);
     useEffect(() => {
       const fetchUserId = async () => {
@@ -25,7 +25,8 @@ export default function AppHeader() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="/home">Home</Nav.Link>
+                <Nav.Link active={activeLink === "home"} href="/home">Home</Nav.Link>
+                <Nav.Link active={activeLink === "family-members"} href="/family-members">Family members</Nav.Link>
                 <Nav.Link href="/log-entry">New log entry</Nav.Link>
                 <NavDropdown title="User" id="basic-nav-dropdown">
                   <NavDropdown.Item onClick={() => submitLogOut(showAlert)}>

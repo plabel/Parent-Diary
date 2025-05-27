@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from '../users/user.model';
 import { LogEntry } from '../log-entry/log-entry.model';
+import { FamilyMember } from 'src/family-member/family-member.model';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -15,7 +16,7 @@ import { LogEntry } from '../log-entry/log-entry.model';
             username: configService.get('db.username'),
             password: configService.get('db.password'),
             database: configService.get('db.database'),
-            models: [User, LogEntry],
+            models: [User, LogEntry, FamilyMember],
         }),
     }),
   ],

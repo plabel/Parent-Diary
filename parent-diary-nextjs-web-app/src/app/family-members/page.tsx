@@ -1,14 +1,14 @@
 "use client";
-import LogEntries from "../_log-entry/log-entries";
 import AppHeader from "../_global/app-header";
+import FamilyMembers from "../_family-members/family-members";
 
-export default function HomePage() {
+export default function FamilyMembersPage() {
   return (
     <>
-      <AppHeader activeLink="home" />
+      <AppHeader activeLink="family-members" />
       <main className={`w-100 m-auto`}>
         <div className="container pt-5">
-          <LogEntries />
+          <FamilyMembers />
         </div>
       </main>
     </>
