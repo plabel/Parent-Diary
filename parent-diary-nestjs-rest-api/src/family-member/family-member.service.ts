@@ -21,4 +21,9 @@ export class FamilyMemberService {
   async createFamilyMember(familyMember: FamilyMember, userId: number): Promise<FamilyMember> {
     return this.familyMemberModel.create({ ...familyMember, userId });
   }
+
+  async updateFamilyMember(id: number, familyMember: Partial<FamilyMember>, userId: number): Promise<FamilyMember | null> {
+    await this.familyMemberModel.update(familyMember, { where: { id, userId } });
+    return this.familyMemberModel.findByPk(id);
+  }
 }

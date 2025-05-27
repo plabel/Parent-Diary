@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards, Delete, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards, Delete, Param, Post, Body, Patch } from '@nestjs/common';
 import { FamilyMemberService } from './family-member.service';
 import { FamilyMember } from './family-member.model';
 import { AuthGuard } from 'src/guard/auth/auth.guard';
@@ -26,5 +26,11 @@ export class FamilyMemberController {
     createFamilyMember(@Body() familyMember: FamilyMember, @Req() request: Request & { session: { userId: string }}): Promise<FamilyMember> {
         const userId = (request.session as any).userId;
         return this.familyMemberService.createFamilyMember(familyMember, userId);
+    }
+    @Patch(':id')
+    @UseGuards(AuthGuard)
+    updateFamilyMember(@Param('id') id: string, @Body() familyMember: FamilyMember, @Req() request: Request & { session: { userId: string }}): Promise<FamilyMember | null> {
+        const userId = (request.session as any).userId;
+        return this.familyMemberService.updateFamilyMember(parseInt(id), familyMember, userId);
     }
 }

@@ -31,7 +31,7 @@ export default function FamilyMembers() {
           petName={familyMember.petName}
           id={familyMember.id}
           deleteFn={(setLoading) => deleteFamilyMember(familyMember.id, setLoading, showAlert, fetchFamilyMembers)}
-          refreshLogEntries={fetchFamilyMembers}
+          refreshFamilyMembers={fetchFamilyMembers}
         />
       ))}
       {familyMembers?.length === 0 && <p>No family members found</p>}
