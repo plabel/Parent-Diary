@@ -11,7 +11,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        userId: 1,
+        userId: 2,
         entry: 'This is another test log entry',
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from '../users/user.model';
-import { LogEntry } from '../log-entry/log-entry.model';
+import { FamilyMemberLogEntries, LogEntry } from '../log-entry/log-entry.model';
 import { FamilyMember } from 'src/family-member/family-member.model';
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { FamilyMember } from 'src/family-member/family-member.model';
             username: configService.get('db.username'),
             password: configService.get('db.password'),
             database: configService.get('db.database'),
-            models: [User, LogEntry, FamilyMember],
+            models: [User, LogEntry, FamilyMember, FamilyMemberLogEntries],
         }),
     }),
   ],
