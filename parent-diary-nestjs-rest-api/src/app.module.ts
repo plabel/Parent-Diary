@@ -9,6 +9,7 @@ import { LogEntryService } from './log-entry/log-entry.service';
 import configuration from './config/config';
 import { LogEntryController } from './log-entry/log-entry.controller';
 import { LogEntryModule } from './log-entry/log-entry.module';
+import { FamilyMemberModule } from './family-member/family-member.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LogEntryModule } from './log-entry/log-entry.module';
     DatabaseModule,
     UsersModule,
     LogEntryModule,
+    FamilyMemberModule,
   ],
   controllers: [AppController ],
   providers: [AppService, EmailService],
