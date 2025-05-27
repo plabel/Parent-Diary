@@ -19,7 +19,9 @@ export default function FamilyMemberCard({
 }: FamilyMemberCardProps) {
   return (
     <div className="card w-100 mb-2">
-      <div className="card-header">{petName}</div>
+      <div className="card-header">
+        <span className="badge text-bg-secondary">{petName}</span>
+      </div>
       <div className="card-body">
         <p>{firstName} {lastName}</p>
       </div>
