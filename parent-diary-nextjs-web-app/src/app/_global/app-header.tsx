@@ -21,13 +21,14 @@ export default function AppHeader({ activeLink }: { activeLink: string }) {
         <header>
         <Navbar expand="lg" className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           <Container>
-            <Navbar.Brand href="#home">Parent Diary</Navbar.Brand>
+            <Navbar.Brand >Parent Diary</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
                 <Nav.Link active={activeLink === "home"} href="/home">Home</Nav.Link>
                 <Nav.Link active={activeLink === "family-members"} href="/family-members">Family members</Nav.Link>
                 <Nav.Link href="/log-entry">New log entry</Nav.Link>
+                <Nav.Link href="/new-family-member">New family member</Nav.Link>
                 <NavDropdown title="User" id="basic-nav-dropdown">
                   <NavDropdown.Item onClick={() => submitLogOut(showAlert)}>
                     Log out

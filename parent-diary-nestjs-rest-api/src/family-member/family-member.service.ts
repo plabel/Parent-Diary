@@ -17,4 +17,8 @@ export class FamilyMemberService {
     const result = await this.familyMemberModel.destroy({ where: { id, userId } });
     return result === 1;
   }
+
+  async createFamilyMember(familyMember: FamilyMember, userId: number): Promise<FamilyMember> {
+    return this.familyMemberModel.create({ ...familyMember, userId });
+  }
 }
