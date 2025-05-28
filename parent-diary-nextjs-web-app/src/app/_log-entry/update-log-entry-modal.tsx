@@ -4,6 +4,7 @@ import { useAlert } from "../_global/alert/alert-provider";
 import { Form } from "react-bootstrap";
 import updateLogEntry from "./helpers/updateLogEntry";
 import { FamilyMember } from "../_family-members/types";
+import { useFamilyMembersContext } from "../_family-members/family-member-context";
 
 type UpdateLogEntryModalProps = {
   entry: string;
@@ -18,6 +19,7 @@ function UpdateLogEntryModal({
   refreshLogEntries,
   familyMembers,
 }: UpdateLogEntryModalProps) {
+  const allFamilyMembers = useFamilyMembersContext();
   const [show, setShow] = useState(false);
   const showAlert = useAlert();
   const [loading, setLoading] = useState(false);
@@ -58,6 +60,19 @@ function UpdateLogEntryModal({
               );
             }}
           >
+          <div className="form-floating mb-2">
+            <h5>Family members</h5>
+            {allFamilyMembers.map((familyMember) => (
+              <Form.Check // prettier-ignore
+                key={familyMember.id}
+                type={"checkbox"}
+                defaultChecked={familyMembers.find((fm) => fm.id === familyMember.id) !== undefined}
+                name="familyMembers"
+                value={familyMember.id}
+                label={familyMember.petName}
+              />
+            ))}
+          </div>
             <div className="form-floating mb-2">
               <Form.Control
                 type="text"
@@ -75,19 +90,6 @@ function UpdateLogEntryModal({
               <Form.Control.Feedback type="invalid">
                 Please provide a valid log entry.
               </Form.Control.Feedback>
-            </div>
-            <div className="form-floating mb-2">
-              <h5>Family members</h5>
-              {familyMembers.map((familyMember) => (
-                <Form.Check // prettier-ignore
-                  key={familyMember.id}
-                  type={"checkbox"}
-                  checked
-                  name="familyMembers"
-                  value={familyMember.id}
-                  label={familyMember.petName}
-                />
-              ))}
             </div>
             <button
               disabled={loading}

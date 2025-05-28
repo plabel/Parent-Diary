@@ -4,11 +4,11 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { LogEntryController } from './log-entry.controller';
 import { LogEntryService } from './log-entry.service';
 import { ConfigService } from '@nestjs/config';
-import { LogEntry } from './log-entry.model';
+import { LogEntry, FamilyMemberLogEntries } from './log-entry.model';
 
 @Module({
-    imports: [SequelizeModule.forFeature([LogEntry]), ConfigModule],
+    imports: [SequelizeModule.forFeature([LogEntry, FamilyMemberLogEntries]), ConfigModule],
     providers: [LogEntryService, ConfigService],
     controllers: [LogEntryController],
-  })
+})
 export class LogEntryModule {}

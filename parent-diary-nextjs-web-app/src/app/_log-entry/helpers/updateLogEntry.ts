@@ -13,7 +13,8 @@ export default async function updateLogEntry(
   handleClose: () => void
 ): Promise<void> {
   const entry = formData.get("entry");
-  const payload = { entry };
+  const familyMembers = formData.getAll("familyMembers");
+  const payload = { entry, familyMembers };
   const { formErrors, isValid } = validateLogEntry(payload);
   const updatedFormErrors = {
     ...formErrorsState,

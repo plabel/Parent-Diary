@@ -6,10 +6,14 @@ import Pagination from "react-bootstrap/Pagination";
 import { useAlert } from "../_global/alert/alert-provider";
 import { deleteLogEntry } from "./helpers/deleteLogEntry";
 import { fetchLogEntries } from "./helpers/fetchLogEntries";
+import { FamilyMembersContext } from "../_family-members/family-member-context";
+import { fetchFamilyMembers } from "../_family-members/helpers/fetchFamilyMembers";
+import { FamilyMember } from "../_family-members/types";
 
 export default function LogEntries() {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [page, setPage] = useState(1);
+  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const showAlert = useAlert();
   // context for family members TODO
   let pageItems = [];
@@ -27,11 +31,13 @@ export default function LogEntries() {
   }
   useEffect(() => {
     fetchLogEntries(setLogEntries, page);
+    fetchFamilyMembers(setFamilyMembers);
   }, [page]);
   return (
-    <div>
-      {logEntries?.map((logEntry) => (
-        <LogEntryCard
+    <FamilyMembersContext.Provider value={familyMembers}>
+      <div>
+        {logEntries?.map((logEntry) => (
+          <LogEntryCard
           key={logEntry.id}
           entry={logEntry.entry}
           familyMembers={logEntry.familyMembers}
@@ -48,5 +54,6 @@ export default function LogEntries() {
       {logEntries?.length === 0 && <p>No log entries found</p>}
       <Pagination>{pageItems}</Pagination>
     </div>
+    </FamilyMembersContext.Provider>
   );
 }

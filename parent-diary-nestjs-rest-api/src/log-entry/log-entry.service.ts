@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { LogEntry } from './log-entry.model';
+import { FamilyMemberLogEntries, LogEntry } from './log-entry.model';
 import { FamilyMember } from 'src/family-member/family-member.model';
 
 @Injectable()
 export class LogEntryService {
     constructor(
-        @InjectModel(LogEntry)
-        private logEntryModel: typeof LogEntry,
+          @InjectModel(LogEntry)
+          private logEntryModel: typeof LogEntry,
+          @InjectModel(FamilyMemberLogEntries)
+          private familyMemberLogEntriesModel: typeof FamilyMemberLogEntries,
       ) {}
 
       async createLogEntry(logEntry: Partial<LogEntry>): Promise<LogEntry> {
@@ -26,8 +28,44 @@ export class LogEntryService {
       }
 
       async updateLogEntry(id: number, logEntry: Partial<LogEntry>, userId: number): Promise<LogEntry | null> {
-        await this.logEntryModel.update(logEntry, { where: { id, userId } });
-        return this.logEntryModel.findByPk(id);
+        const transaction = await this.logEntryModel.sequelize?.transaction();
+    
+        try {
+            // Update the log entry
+            await this.logEntryModel.update(
+                { entry: logEntry.entry },
+                { where: { id, userId }, transaction }
+            );
+    
+            if (logEntry.familyMembers) {
+                // Remove existing associations
+                await this.familyMemberLogEntriesModel.destroy({
+                    where: { logEntryId: id },
+                    transaction
+                });
+    
+                // Create new associations
+                if (logEntry.familyMembers.length > 0) {
+                    await this.familyMemberLogEntriesModel.bulkCreate(
+                        logEntry.familyMembers.map(familyMemberId => ({
+                            logEntryId: id,
+                            familyMemberId: parseInt(familyMemberId.toString())
+                        })),
+                        { transaction }
+                    );
+                }
+            }
+    
+            await transaction?.commit();
+    
+            // Return updated entry with associations
+            return this.logEntryModel.findByPk(id, {
+                include: [FamilyMember]
+            });
+        } catch (error) {
+            await transaction?.rollback();
+            throw error;
+        }
       }
       
 }
