@@ -9,6 +9,7 @@ import { fetchLogEntries } from "./helpers/fetchLogEntries";
 import { FamilyMembersContext } from "../_family-members/family-member-context";
 import { fetchFamilyMembers } from "../_family-members/helpers/fetchFamilyMembers";
 import { FamilyMember } from "../_family-members/types";
+import { Button, Form } from "react-bootstrap";
 
 export default function LogEntries() {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
@@ -35,6 +36,14 @@ export default function LogEntries() {
   }, [page]);
   return (
     <FamilyMembersContext.Provider value={familyMembers}>
+      <div className="container mb-3 px-0">
+        <div className="row mx-0">
+          <Button className="col col-1" variant="dark"><i className="bi bi-search"></i></Button>
+          <div className="col col-11 pe-0">
+            <Form.Control  type="text" placeholder="Normal text" />
+          </div>
+        </div>
+      </div>
       <div>
         {logEntries?.map((logEntry) => (
           <LogEntryCard
