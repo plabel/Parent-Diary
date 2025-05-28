@@ -1,17 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useAlert } from "../_global/alert/alert-provider";
 import createLogEntry from "./helpers/createLogEntry";
+import { FamilyMember } from "../_family-members/types";
+import { fetchFamilyMembers } from "../_family-members/helpers/fetchFamilyMembers";
 
 export default function LogEntryPage() {
   const showAlert = useAlert();
   const [loading, setLoading] = useState(false);
+  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [formErrors, setFormErrors] = useState<Record<string, boolean>>({
     entry: false,
   });
+  useEffect(() => {
+    fetchFamilyMembers(setFamilyMembers);
+  }, []);
   return (
     <main className={`w-50 m-auto`}>
       <Form
@@ -23,6 +29,18 @@ export default function LogEntryPage() {
         }}
       >
         <h1 className="h3 mb-3 fw-normal">Write a new log entry</h1>
+        <div className="form-floating mb-2">
+            <h5>Family members</h5>
+            {familyMembers.map((familyMember) => (
+              <Form.Check // prettier-ignore
+                key={familyMember.id}
+                type={"checkbox"}
+                name="familyMembers"
+                value={familyMember.id}
+                label={familyMember.petName}
+              />
+            ))}
+          </div>
         <div className="form-floating mb-2">
           <Form.Control
             type="text"

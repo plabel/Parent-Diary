@@ -12,8 +12,33 @@ export class LogEntryService {
           private familyMemberLogEntriesModel: typeof FamilyMemberLogEntries,
       ) {}
 
-      async createLogEntry(logEntry: Partial<LogEntry>): Promise<LogEntry> {
-        return this.logEntryModel.create(logEntry);
+      async createLogEntry(logEntry: Partial<LogEntry>): Promise<LogEntry | null> {
+        const transaction = await this.logEntryModel.sequelize?.transaction();
+    
+        try {
+            // Update the log entry
+            const newLogEntry = await this.logEntryModel.create(logEntry, { transaction });
+    
+            if (logEntry.familyMembers && logEntry.familyMembers.length > 0) {
+                await this.familyMemberLogEntriesModel.bulkCreate(
+                    logEntry.familyMembers.map(familyMemberId => ({
+                        logEntryId: newLogEntry.dataValues.id,
+                        familyMemberId: parseInt(familyMemberId.toString())
+                    })),
+                    { transaction }
+                );
+            }
+    
+            await transaction?.commit();
+    
+            // Return updated entry with associations
+            return this.logEntryModel.findByPk(newLogEntry.dataValues.id, {
+                include: [FamilyMember]
+            });
+        } catch (error) {
+            await transaction?.rollback();
+            throw error;
+        }
       }
 
       async getLogEntries(userId: number, page: number): Promise<LogEntry[]> {

@@ -23,7 +23,7 @@ export class LogEntryController {
 
     @Post()
     @UseGuards(AuthGuard)
-    createLogEntry(@Body() logEntry: LogEntry, @Req() request: Request & { session: { userId: string }}): Promise<LogEntry> {
+    createLogEntry(@Body() logEntry: LogEntry, @Req() request: Request & { session: { userId: string }}): Promise<LogEntry | null> {
         const userId = (request.session as any).userId;
         return this.logEntryService.createLogEntry({...logEntry, userId});
     }
