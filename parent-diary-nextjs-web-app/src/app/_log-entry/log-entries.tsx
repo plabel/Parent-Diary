@@ -17,6 +17,7 @@ export default function LogEntries() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("desc");
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
+  const [selectedFamilyMembers, setSelectedFamilyMembers] = useState<FamilyMember[]>([]);
   const showAlert = useAlert();
   // context for family members TODO
   let pageItems = [];
@@ -33,9 +34,9 @@ export default function LogEntries() {
     );
   }
   useEffect(() => {
-    fetchLogEntries(setLogEntries, page, search, sort);
+    fetchLogEntries(setLogEntries, page, search, sort, selectedFamilyMembers);
     fetchFamilyMembers(setFamilyMembers);
-  }, [page, search]);
+  }, [page, search, selectedFamilyMembers]);
   return (
     <FamilyMembersContext.Provider value={familyMembers}>
       <SearchBar
@@ -43,8 +44,11 @@ export default function LogEntries() {
         setSort={setSort}
         sort={sort}
         refreshLogEntries={(newSort: string) =>
-          fetchLogEntries(setLogEntries, page, search, newSort)
+          fetchLogEntries(setLogEntries, page, search, newSort, selectedFamilyMembers)
         }
+        allFamilyMembers={familyMembers}
+        selectedFamilyMembers={selectedFamilyMembers}
+        setSelectedFamilyMembers={setSelectedFamilyMembers}
       />
       <div>
         {logEntries?.map((logEntry) => (
@@ -56,11 +60,11 @@ export default function LogEntries() {
             createdAt={logEntry.createdAt}
             deleteFn={(setLoading) =>
               deleteLogEntry(logEntry.id, setLoading, showAlert, () =>
-                fetchLogEntries(setLogEntries, page, search, sort)
+                fetchLogEntries(setLogEntries, page, search, sort, selectedFamilyMembers)
               )
             }
             refreshLogEntries={() =>
-              fetchLogEntries(setLogEntries, page, search, sort)
+              fetchLogEntries(setLogEntries, page, search, sort, selectedFamilyMembers)
             }
           />
         ))}

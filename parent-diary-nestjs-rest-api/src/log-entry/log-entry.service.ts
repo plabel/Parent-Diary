@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FamilyMemberLogEntries, LogEntry } from './log-entry.model';
 import { FamilyMember } from 'src/family-member/family-member.model';
-import { Op, WhereOptions } from 'sequelize';
+import { Includeable, Op, Sequelize, WhereOptions } from 'sequelize';
 
 @Injectable()
 export class LogEntryService {
@@ -42,15 +42,28 @@ export class LogEntryService {
         }
       }
 
-      async getLogEntries(userId: number, page: number, search: string, sort: string): Promise<LogEntry[]> {
+      async getLogEntries(userId: number, page: number, search: string, sort: string, familyMembers: number[]): Promise<LogEntry[]> {
         const limit = 10;
         const offset = (page - 1) * limit;
-        const where: WhereOptions<LogEntry> = { userId };
+        const where: WhereOptions<LogEntry> = { userId,
+            ...(familyMembers?.length > 0 && {
+                [Op.and]: [
+                    Sequelize.literal(`EXISTS (
+                        SELECT 1 
+                        FROM FamilyMemberLogEntries fme 
+                        WHERE fme.logEntryId = LogEntry.id 
+                        AND fme.familyMemberId IN (${familyMembers.join(',')})
+                    )`)
+                ]
+            }) };
+        let include: Includeable[] = [{
+            model: FamilyMember,
+        }];
         if (search) {
             where.entry = { [Op.like]: `%${search}%` };
         }
 
-        return this.logEntryModel.findAll({ include: [FamilyMember], where, limit, offset, order: [['createdAt', sort]] });
+        return this.logEntryModel.findAll({ include, where, limit, offset, order: [['createdAt', sort]] });
       } 
 
       async deleteLogEntry(id: number, userId: number): Promise<boolean> {
