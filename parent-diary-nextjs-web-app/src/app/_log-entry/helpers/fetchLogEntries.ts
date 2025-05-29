@@ -3,10 +3,12 @@ import { LogEntry } from "../types";
 
 export const fetchLogEntries = async (
   setLogEntries: (logEntries: LogEntry[]) => void,
-  page: number
+  page: number,
+  search: string, 
+  sort: string
 ) => {
   const response = await fetchWrapper<LogEntry[]>(
-    `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry?page=${page}`,
+    `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry?page=${page}&search=${search}&sort=${sort}`,
     {
       method: "GET",
       credentials: "include",

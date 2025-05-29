@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FamilyMemberLogEntries, LogEntry } from './log-entry.model';
 import { FamilyMember } from 'src/family-member/family-member.model';
+import { Op, WhereOptions } from 'sequelize';
 
 @Injectable()
 export class LogEntryService {
@@ -41,10 +42,15 @@ export class LogEntryService {
         }
       }
 
-      async getLogEntries(userId: number, page: number): Promise<LogEntry[]> {
+      async getLogEntries(userId: number, page: number, search: string, sort: string): Promise<LogEntry[]> {
         const limit = 10;
         const offset = (page - 1) * limit;
-        return this.logEntryModel.findAll({ include: [FamilyMember], where: { userId }, limit, offset, order: [['createdAt', 'DESC']] });
+        const where: WhereOptions<LogEntry> = { userId };
+        if (search) {
+            where.entry = { [Op.like]: `%${search}%` };
+        }
+
+        return this.logEntryModel.findAll({ include: [FamilyMember], where, limit, offset, order: [['createdAt', sort]] });
       } 
 
       async deleteLogEntry(id: number, userId: number): Promise<boolean> {

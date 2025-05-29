@@ -9,11 +9,13 @@ import { fetchLogEntries } from "./helpers/fetchLogEntries";
 import { FamilyMembersContext } from "../_family-members/family-member-context";
 import { fetchFamilyMembers } from "../_family-members/helpers/fetchFamilyMembers";
 import { FamilyMember } from "../_family-members/types";
-import { Button, Form } from "react-bootstrap";
+import SearchBar from "./search-bar";
 
 export default function LogEntries() {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("desc");
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const showAlert = useAlert();
   // context for family members TODO
@@ -31,38 +33,40 @@ export default function LogEntries() {
     );
   }
   useEffect(() => {
-    fetchLogEntries(setLogEntries, page);
+    fetchLogEntries(setLogEntries, page, search, sort);
     fetchFamilyMembers(setFamilyMembers);
-  }, [page]);
+  }, [page, search]);
   return (
     <FamilyMembersContext.Provider value={familyMembers}>
-      <div className="container mb-3 px-0">
-        <div className="row mx-0">
-          <Button className="col col-1" variant="dark"><i className="bi bi-search"></i></Button>
-          <div className="col col-11 pe-0">
-            <Form.Control  type="text" placeholder="Normal text" />
-          </div>
-        </div>
-      </div>
+      <SearchBar
+        setSearch={setSearch}
+        setSort={setSort}
+        sort={sort}
+        refreshLogEntries={(newSort: string) =>
+          fetchLogEntries(setLogEntries, page, search, newSort)
+        }
+      />
       <div>
         {logEntries?.map((logEntry) => (
           <LogEntryCard
-          key={logEntry.id}
-          entry={logEntry.entry}
-          familyMembers={logEntry.familyMembers}
-          id={logEntry.id}
-          createdAt={logEntry.createdAt}
-          deleteFn={(setLoading) =>
-            deleteLogEntry(logEntry.id, setLoading, showAlert, () =>
-              fetchLogEntries(setLogEntries, page)
-            )
-          }
-          refreshLogEntries={() => fetchLogEntries(setLogEntries, page)}
-        />
-      ))}
-      {logEntries?.length === 0 && <p>No log entries found</p>}
-      <Pagination>{pageItems}</Pagination>
-    </div>
+            key={logEntry.id}
+            entry={logEntry.entry}
+            familyMembers={logEntry.familyMembers}
+            id={logEntry.id}
+            createdAt={logEntry.createdAt}
+            deleteFn={(setLoading) =>
+              deleteLogEntry(logEntry.id, setLoading, showAlert, () =>
+                fetchLogEntries(setLogEntries, page, search, sort)
+              )
+            }
+            refreshLogEntries={() =>
+              fetchLogEntries(setLogEntries, page, search, sort)
+            }
+          />
+        ))}
+        {logEntries?.length === 0 && <p>No log entries found</p>}
+        <Pagination>{pageItems}</Pagination>
+      </div>
     </FamilyMembersContext.Provider>
   );
 }
