@@ -17,9 +17,10 @@ export default function LogEntries() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("desc");
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
-  const [selectedFamilyMembers, setSelectedFamilyMembers] = useState<FamilyMember[]>([]);
+  const [selectedFamilyMembers, setSelectedFamilyMembers] = useState<
+    FamilyMember[]
+  >([]);
   const showAlert = useAlert();
-  // context for family members TODO
   let pageItems = [];
   for (let number = 1; number <= 5; number++) {
     pageItems.push(
@@ -44,7 +45,13 @@ export default function LogEntries() {
         setSort={setSort}
         sort={sort}
         refreshLogEntries={(newSort: string) =>
-          fetchLogEntries(setLogEntries, page, search, newSort, selectedFamilyMembers)
+          fetchLogEntries(
+            setLogEntries,
+            page,
+            search,
+            newSort,
+            selectedFamilyMembers
+          )
         }
         allFamilyMembers={familyMembers}
         selectedFamilyMembers={selectedFamilyMembers}
@@ -60,11 +67,23 @@ export default function LogEntries() {
             createdAt={logEntry.createdAt}
             deleteFn={(setLoading) =>
               deleteLogEntry(logEntry.id, setLoading, showAlert, () =>
-                fetchLogEntries(setLogEntries, page, search, sort, selectedFamilyMembers)
+                fetchLogEntries(
+                  setLogEntries,
+                  page,
+                  search,
+                  sort,
+                  selectedFamilyMembers
+                )
               )
             }
             refreshLogEntries={() =>
-              fetchLogEntries(setLogEntries, page, search, sort, selectedFamilyMembers)
+              fetchLogEntries(
+                setLogEntries,
+                page,
+                search,
+                sort,
+                selectedFamilyMembers
+              )
             }
           />
         ))}
