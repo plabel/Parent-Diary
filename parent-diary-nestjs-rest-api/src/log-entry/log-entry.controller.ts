@@ -25,11 +25,23 @@ export class LogEntryController {
     @Query('search') search: string,
     @Query('sort') sort: string,
     @Query('familyMembers') familyMembersRaw: string,
+    @Query('createdAfter') createdAfter: string,
+    @Query('createdBefore') createdBefore: string,
     @Req() request: Request & { session: { userId: string } },
   ): Promise<LogEntry[]> {
-    const familyMembers = familyMembersRaw ? familyMembersRaw.split(',').map(Number) : [];
+    const familyMembers = familyMembersRaw
+      ? familyMembersRaw.split(',').map(Number)
+      : [];
     const userId = (request.session as any).userId;
-    return this.logEntryService.getLogEntries(userId, page, search, sort, familyMembers);
+    return this.logEntryService.getLogEntries(
+      userId,
+      page,
+      search,
+      sort,
+      familyMembers,
+      createdAfter,
+      createdBefore,
+    );
   }
 
   @Delete(':id')

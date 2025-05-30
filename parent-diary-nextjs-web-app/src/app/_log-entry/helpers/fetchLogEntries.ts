@@ -6,13 +6,21 @@ export const fetchLogEntries = async (
   page: number,
   search: string, 
   sort: string,
-  selectedFamilyMembers: FamilyMember[]
+  selectedFamilyMembers: FamilyMember[],
+  createdAfter: Date | null,
+  createdBefore: Date | null,
 ) => {
   const queryString = new URLSearchParams();
   queryString.set("page", page.toString());
   queryString.set("search", search);
   queryString.set("sort", sort);
   queryString.set("familyMembers", selectedFamilyMembers.map((fm) => fm.id).join(","));
+  if (createdAfter) {
+    queryString.set("createdAfter", createdAfter.toISOString());
+  }
+  if (createdBefore) {
+    queryString.set("createdBefore", createdBefore.toISOString());
+  }
   const response = await fetchWrapper<LogEntry[]>(
     `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry?${queryString.toString()}`,
     {

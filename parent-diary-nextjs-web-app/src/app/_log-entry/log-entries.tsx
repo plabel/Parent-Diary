@@ -37,9 +37,17 @@ export default function LogEntries() {
     );
   }
   useEffect(() => {
-    fetchLogEntries(setLogEntries, page, search, sort, selectedFamilyMembers);
+    fetchLogEntries(
+      setLogEntries,
+      page,
+      search,
+      sort,
+      selectedFamilyMembers,
+      createdAfter,
+      createdBefore
+    );
     fetchFamilyMembers(setFamilyMembers);
-  }, [page, search, selectedFamilyMembers]);
+  }, [page, search, selectedFamilyMembers, createdAfter, createdBefore]);
   return (
     <FamilyMembersContext.Provider value={familyMembers}>
       <SearchBar
@@ -52,7 +60,9 @@ export default function LogEntries() {
             page,
             search,
             newSort,
-            selectedFamilyMembers
+            selectedFamilyMembers,
+            createdAfter,
+            createdBefore
           )
         }
         createdAfter={createdAfter}
@@ -78,7 +88,9 @@ export default function LogEntries() {
                   page,
                   search,
                   sort,
-                  selectedFamilyMembers
+                  selectedFamilyMembers,
+                  createdAfter,
+                  createdBefore
                 )
               )
             }
@@ -88,7 +100,9 @@ export default function LogEntries() {
                 page,
                 search,
                 sort,
-                selectedFamilyMembers
+                selectedFamilyMembers,
+                createdAfter,
+                createdBefore
               )
             }
           />
