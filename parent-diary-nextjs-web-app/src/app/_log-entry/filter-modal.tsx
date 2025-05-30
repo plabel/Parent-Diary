@@ -1,21 +1,31 @@
 import { Modal, Form } from "react-bootstrap";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FamilyMember } from "../_family-members/types";
 
 type FilterModalProps = {
   allFamilyMembers: FamilyMember[];
   selectedFamilyMembers: FamilyMember[];
   setSelectedFamilyMembers: (familyMembers: FamilyMember[]) => void;
+  createdAfter: Date | null;
+  createdBefore: Date | null;
+  setCreatedAfter: Dispatch<SetStateAction<Date | null>>;
+  setCreatedBefore: Dispatch<SetStateAction<Date | null>>;
 };
 
 export default function FilterModal({
   allFamilyMembers,
   selectedFamilyMembers,
   setSelectedFamilyMembers,
+  createdAfter,
+  createdBefore,
+  setCreatedAfter,
+  setCreatedBefore,
 }: FilterModalProps) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const datesAreInvalid =
+    (createdAfter && createdBefore && createdAfter > createdBefore) ?? false;
   return (
     <>
       <button
@@ -63,14 +73,49 @@ export default function FilterModal({
           </div>
           <div className="form-floating mb-2">
             <h5>Filter by date</h5>
-            <Form.Group className="mb-3" >
+            <Form.Group className="mb-3">
               <Form.Label>Created after</Form.Label>
-              <Form.Control type="date" />
+              <Form.Control
+                type="date"
+                value={
+                  createdAfter ? createdAfter.toISOString().split("T")[0] : ""
+                }
+                onChange={(e) =>
+                  setCreatedAfter(
+                    e.target.value ? new Date(e.target.value) : null
+                  )
+                }
+                isInvalid={datesAreInvalid}
+              />
             </Form.Group>
-            <Form.Group className="mb-3" >
+            <Form.Group className="mb-3">
               <Form.Label>Created before</Form.Label>
-              <Form.Control type="date" />
+              <Form.Control
+                type="date"
+                value={
+                  createdBefore ? createdBefore.toISOString().split("T")[0] : ""
+                }
+                onChange={(e) =>
+                  setCreatedBefore(
+                    e.target.value ? new Date(e.target.value) : null
+                  )
+                }
+                isInvalid={datesAreInvalid}
+              />
+              <Form.Control.Feedback type="invalid">
+                The date range is invalid.
+              </Form.Control.Feedback>
             </Form.Group>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() => {
+                setCreatedAfter(null);
+                setCreatedBefore(null);
+              }}
+            >
+              Clear dates
+            </button>
           </div>
         </Modal.Body>
       </Modal>

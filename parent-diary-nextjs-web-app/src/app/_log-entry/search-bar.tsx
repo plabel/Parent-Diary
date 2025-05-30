@@ -11,6 +11,10 @@ export type SearchBarProps = {
   allFamilyMembers: FamilyMember[];
   selectedFamilyMembers: FamilyMember[];
   setSelectedFamilyMembers: (familyMembers: FamilyMember[]) => void;
+  createdAfter: Date | null;
+  createdBefore: Date | null;
+  setCreatedAfter: Dispatch<SetStateAction<Date | null>>;
+  setCreatedBefore: Dispatch<SetStateAction<Date | null>>;
 };
 
 export default function SearchBar({
@@ -21,6 +25,10 @@ export default function SearchBar({
   allFamilyMembers,
   selectedFamilyMembers,
   setSelectedFamilyMembers,
+  createdAfter,
+  createdBefore,
+  setCreatedAfter,
+  setCreatedBefore,
 }: SearchBarProps) {
   return (
     <div className="container mb-3 px-0">
@@ -39,6 +47,10 @@ export default function SearchBar({
             allFamilyMembers={allFamilyMembers}
             selectedFamilyMembers={selectedFamilyMembers}
             setSelectedFamilyMembers={setSelectedFamilyMembers}
+            createdAfter={createdAfter}
+            createdBefore={createdBefore}
+            setCreatedAfter={setCreatedAfter}
+            setCreatedBefore={setCreatedBefore}
           />
           <button
             className="btn btn-dark rounded-circle p-2 lh-1 me-1"

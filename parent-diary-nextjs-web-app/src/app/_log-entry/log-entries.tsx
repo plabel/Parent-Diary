@@ -20,6 +20,8 @@ export default function LogEntries() {
   const [selectedFamilyMembers, setSelectedFamilyMembers] = useState<
     FamilyMember[]
   >([]);
+  const [createdAfter, setCreatedAfter] = useState<Date | null>(null);
+  const [createdBefore, setCreatedBefore] = useState<Date | null>(null);
   const showAlert = useAlert();
   let pageItems = [];
   for (let number = 1; number <= 5; number++) {
@@ -53,6 +55,10 @@ export default function LogEntries() {
             selectedFamilyMembers
           )
         }
+        createdAfter={createdAfter}
+        createdBefore={createdBefore}
+        setCreatedAfter={setCreatedAfter}
+        setCreatedBefore={setCreatedBefore}
         allFamilyMembers={familyMembers}
         selectedFamilyMembers={selectedFamilyMembers}
         setSelectedFamilyMembers={setSelectedFamilyMembers}
