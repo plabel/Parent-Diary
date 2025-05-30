@@ -28,6 +28,9 @@ module.exports = {
       encryptedSecretKey: {
         type: Sequelize.STRING
       },
+      otpSecret: {
+        type: Sequelize.STRING
+      },
       isEmailVerified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false

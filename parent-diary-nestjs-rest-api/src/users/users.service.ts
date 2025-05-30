@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import * as AES from 'crypto-js/aes';
 import * as enc from 'crypto-js/enc-utf8';
 import { LogInDto } from './dto/log-in.dto';
+import { authenticator } from 'otplib';
 @Injectable()
 export class UsersService {
   constructor(
@@ -79,23 +80,31 @@ export class UsersService {
     }
     return true;
   }
-  async confirmEmail(token: string): Promise<boolean> {
+  async confirmEmail(token: string): Promise<string> {
+    const otpSecret = authenticator.generateSecret();
+    const otpToken = authenticator.generate(otpSecret);
+    const isOTPValid = authenticator.verify({ token: otpToken, secret: otpSecret });
+    if (!isOTPValid) {
+      throw new Error('Invalid OTP');
+    }
     const buffer = AES.decrypt(token, this.configService.get('master_key'));
     const decryptedToken = Buffer.from(buffer.toString(enc.Utf8), 'hex').toString();
     const tokenObj = JSON.parse(decryptedToken);
     if (tokenObj.creationDate < Date.now() - 1000 * 60 * this.configService.get('token_expiration_time_in_minutes')) {
       throw new Error('Token expired');
     }
-    const user = await this.userModel.update({
-      isEmailVerified: true
+    const [affectedCount] = await this.userModel.update({
+      isEmailVerified: true,
+      otpSecret: otpSecret
     }, {
       where: {
         id: tokenObj.token
       }
     });
-    if (!user) {
+    const user = await this.userModel.findByPk(tokenObj.token)
+    if (!user && affectedCount === 0 || user === null) {
       throw new Error('User not found');
     }
-    return true;
+    return authenticator.keyuri(user.dataValues.email, "Parent Diary", otpSecret);
   }
 }

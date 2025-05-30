@@ -20,4 +20,7 @@ export class User extends Model {
 
   @Column
   salt: string;
+
+  @Column
+  otpSecret: string;
 }

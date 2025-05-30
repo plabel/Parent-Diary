@@ -12,7 +12,7 @@ export class UsersController {
     constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
 
     @Get('confirm-email')
-    confirmEmail(@Query('token') token: string): Promise<boolean> {
+    confirmEmail(@Query('token') token: string): Promise<string> {
         return this.usersService.confirmEmail(token);
     }
     @Get('current-user')

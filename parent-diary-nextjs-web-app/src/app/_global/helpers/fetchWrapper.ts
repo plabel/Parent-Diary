@@ -1,4 +1,7 @@
-export async function fetchWrapper<T>(url: string, options: RequestInit) {
+export async function fetchWrapper<T>(
+  url: string,
+  options: RequestInit
+): Promise<{ data: T | null; error: { message: string } | null }> {
   try {
     const response = await fetch(url, options);
     const json = await response.json();
