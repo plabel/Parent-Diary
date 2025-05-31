@@ -5,6 +5,7 @@ import { submitLogOut } from "../login/helpers/submitLogout";
 import { useAlert } from "../_global/alert/alert-provider";
 import { useEffect, useState } from "react";
 import { verifySession } from "./helpers/verifySession";
+import ShowOtpQrCodeModal from "./show-otp-qr-code-modal";
 
 
 export default function AppHeader({ activeLink }: { activeLink: string }) {
@@ -34,6 +35,7 @@ export default function AppHeader({ activeLink }: { activeLink: string }) {
                     Log out
                   </NavDropdown.Item>
                   <DeleteUserModal />
+                  <ShowOtpQrCodeModal />
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>

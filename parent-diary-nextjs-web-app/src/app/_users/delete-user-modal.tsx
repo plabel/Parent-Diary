@@ -14,7 +14,7 @@ function DeleteUserModal() {
 
   return (
     <>
-      <NavDropdown.Item onClick={handleShow}>
+      <NavDropdown.Item className='text-danger' onClick={handleShow}>
         Delete user
       </NavDropdown.Item>
       <Modal show={show} onHide={handleClose}>

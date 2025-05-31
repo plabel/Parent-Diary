@@ -112,4 +112,12 @@ export class UsersService {
     }
     return authenticator.keyuri(user.dataValues.email, "Parent Diary", otpSecret);
   }
+  async getOtpKeyUri(userId: string): Promise<string> {
+    const user = await this.userModel.findByPk(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return authenticator.keyuri(user.dataValues.email, "Parent Diary", user.dataValues.otpSecret);
+  }
+
 }

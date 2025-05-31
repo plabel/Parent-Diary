@@ -21,6 +21,10 @@ export class UsersController {
             userId: request.session.userId,
         } : null;
     }
+    @Get('otp-key-uri')
+    async getOtpKeyUri(@Req() request: Request & { session: { userId: string }}): Promise<string | null> {
+        return !!request?.session?.userId ? this.usersService.getOtpKeyUri(request.session.userId) : null;
+    }
     @Delete('current-user')
     async deleteUser(@Req() request: Request & { session: { userId: string }}): Promise<boolean | void> {
         const userId = (request.session as any).userId;
