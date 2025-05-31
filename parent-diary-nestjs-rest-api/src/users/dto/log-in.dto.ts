@@ -7,4 +7,7 @@ export class LogInDto {
 
   @IsNotEmpty() @IsString()
   password: string;
+
+  @IsNotEmpty() @IsString()
+  otp: string;
 }

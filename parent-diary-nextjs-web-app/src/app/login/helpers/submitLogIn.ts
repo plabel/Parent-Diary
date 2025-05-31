@@ -10,7 +10,8 @@ export async function submitLogIn(
 ): Promise<void> {
   const email = formData.get("email");
   const password = formData.get("password");
-  const payload = { email, password };
+  const otp = formData.get("otp");
+  const payload = { email, password, otp };
   const { formErrors, isValid } = validateLogin(payload);
   const updatedFormErrors = {
     ...formErrorsState,

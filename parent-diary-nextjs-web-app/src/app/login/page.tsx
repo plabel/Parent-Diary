@@ -10,9 +10,8 @@ export default function LogIn() {
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, boolean>>({
     email: false,
-    firstName: false,
-    lastName: false,
     password: false,
+    otp: false,
   });
   return (
     <main className={`centered-main w-100 m-auto`}>
@@ -51,6 +50,21 @@ export default function LogIn() {
             isInvalid={formErrors.password}
           />
           <label htmlFor="floatingPassword">Password </label>
+        </div>
+        <div className="form-floating mb-2">
+          <Form.Control
+            type="number"
+            name="otp"
+            className="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+            required
+            isInvalid={formErrors.otp}
+          />
+          <label htmlFor="floatingPassword">OTP from authentication app </label>
+          <Form.Control.Feedback type="invalid">
+            Please provide a valid 6 numbers OTP code.
+          </Form.Control.Feedback>
         </div>
         <button disabled={loading}   className="btn btn-primary w-100 py-2 mb-2" type="submit">
           {loading ? "Logging in..." : "Log in"}

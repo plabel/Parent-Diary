@@ -53,6 +53,11 @@ export class UsersService {
     if (user.dataValues.passwordHash !== this.hashPassword(logInDto.password, user.dataValues.salt)) {
       return null;
     }
+    const otpSecret = user.dataValues.otpSecret;
+    const isOTPValid = authenticator.verify({ token: logInDto.otp, secret: otpSecret });
+    if (!isOTPValid) {
+      return null;
+    }
     return user;
   }
   async getUserByEmail(email: string): Promise<User | null> {
