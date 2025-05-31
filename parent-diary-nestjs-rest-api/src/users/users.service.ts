@@ -65,6 +65,9 @@ export class UsersService {
       where: { email }
     });
   }
+  async getUserById(id: string): Promise<User | null> {
+    return this.userModel.findByPk(id);
+  }
   async resetPassword(token: string, password: string): Promise<boolean> {
     const buffer = AES.decrypt(token, this.configService.get('master_key'));
     const decryptedToken = Buffer.from(buffer.toString(enc.Utf8), 'hex').toString();
@@ -85,7 +88,7 @@ export class UsersService {
     }
     return true;
   }
-  async confirmEmail(token: string): Promise<string> {
+  async confirmEmail(token: string): Promise<{ user: User, keyUri: string }> {
     const otpSecret = authenticator.generateSecret();
     const otpToken = authenticator.generate(otpSecret);
     const isOTPValid = authenticator.verify({ token: otpToken, secret: otpSecret });
@@ -100,7 +103,8 @@ export class UsersService {
     }
     const [affectedCount] = await this.userModel.update({
       isEmailVerified: true,
-      otpSecret: otpSecret
+      otpSecret: otpSecret,
+      recoveryCode: randomBytes(32).toString('hex'),
     }, {
       where: {
         id: tokenObj.token
@@ -110,7 +114,10 @@ export class UsersService {
     if (!user && affectedCount === 0 || user === null) {
       throw new Error('User not found');
     }
-    return authenticator.keyuri(user.dataValues.email, "Parent Diary", otpSecret);
+    return {
+      user,
+      keyUri: authenticator.keyuri(user.dataValues.email, "Parent Diary", otpSecret)
+    };
   }
   async getOtpKeyUri(userId: string): Promise<string> {
     const user = await this.userModel.findByPk(userId);

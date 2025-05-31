@@ -23,4 +23,7 @@ export class User extends Model {
 
   @Column
   otpSecret: string;
+
+  @Column
+  recoveryCode: string;
 }

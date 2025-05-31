@@ -54,4 +54,11 @@ export class EmailService {
         `;
         await this.sendEmail(to, 'Reset password', html);
     }
+    async sendRecoveryCodeEmail(to: string, recoveryCode: string) {
+        const html = `
+            Here is your recovery code, please save it in a safe place (it is also recommended to delete this email after saving the recovery code):
+            ${recoveryCode}
+        `;
+        await this.sendEmail(to, 'Recovery code', html);
+    }
 }

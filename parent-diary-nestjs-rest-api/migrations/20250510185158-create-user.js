@@ -31,6 +31,9 @@ module.exports = {
       otpSecret: {
         type: Sequelize.STRING
       },
+      recoveryCode: {
+        type: Sequelize.STRING
+      },
       isEmailVerified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false

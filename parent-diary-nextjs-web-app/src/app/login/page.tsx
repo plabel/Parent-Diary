@@ -12,6 +12,7 @@ export default function LogIn() {
     email: false,
     password: false,
     otp: false,
+    recoveryCode: false,
   });
   return (
     <main className={`centered-main w-100 m-auto`}>
@@ -64,6 +65,21 @@ export default function LogIn() {
           <label htmlFor="floatingPassword">OTP from authentication app </label>
           <Form.Control.Feedback type="invalid">
             Please provide a valid 6 numbers OTP code.
+          </Form.Control.Feedback>
+        </div>
+        <div className="form-floating mb-2">
+          <Form.Control
+            type="text"
+            name="recoveryCode"
+            className="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+            required
+            isInvalid={formErrors.recoveryCode}
+          />
+          <label htmlFor="floatingPassword">Recovery code, instead of OTP</label>
+          <Form.Control.Feedback type="invalid">
+            Please provide a valid recovery code.
           </Form.Control.Feedback>
         </div>
         <button disabled={loading}   className="btn btn-primary w-100 py-2 mb-2" type="submit">

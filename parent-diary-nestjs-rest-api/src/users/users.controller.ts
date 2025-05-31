@@ -12,8 +12,10 @@ export class UsersController {
     constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
 
     @Get('confirm-email')
-    confirmEmail(@Query('token') token: string): Promise<string> {
-        return this.usersService.confirmEmail(token);
+    async confirmEmail(@Query('token') token: string): Promise<string> {
+        const { keyUri, user } = await this.usersService.confirmEmail(token);
+        await this.emailService.sendRecoveryCodeEmail(user.dataValues.email, user.dataValues.recoveryCode);
+        return keyUri;
     }
     @Get('current-user')
     getCurrentUser(@Req() request: Request & { session: { userId: string }}): unknown | null {
