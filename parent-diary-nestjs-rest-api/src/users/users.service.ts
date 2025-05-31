@@ -56,9 +56,14 @@ export class UsersService {
     const otpSecret = user.dataValues.otpSecret;
     const isOTPValid = authenticator.verify({ token: logInDto.otp, secret: otpSecret });
     if (!isOTPValid) {
+      const isRecoveryCodeValid = user.dataValues.recoveryCode === logInDto.recoveryCode;
+      if(isRecoveryCodeValid) {
+        return user;
+      }
       return null;
+    } else {
+      return user;
     }
-    return user;
   }
   async getUserByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne({

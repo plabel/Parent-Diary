@@ -11,7 +11,8 @@ export async function submitLogIn(
   const email = formData.get("email");
   const password = formData.get("password");
   const otp = formData.get("otp");
-  const payload = { email, password, otp };
+  const recoveryCode = formData.get("recoveryCode");
+  const payload = { email, password, otp, recoveryCode };
   const { formErrors, isValid } = validateLogin(payload);
   const updatedFormErrors = {
     ...formErrorsState,

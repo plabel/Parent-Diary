@@ -3,7 +3,8 @@ import { z } from "zod";
 export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string(),
-  otp: z.string().length(6),
+  otp: z.string().optional(),
+  recoveryCode: z.string().optional(),
 });
 
 export const validateLogin = (data: unknown) => {
@@ -12,6 +13,7 @@ export const validateLogin = (data: unknown) => {
     email: false,
     password: false,
     otp: false,
+    recoveryCode: false,
   };
   if(result.success === false && result.error) {
     result.error.issues.forEach((issue) => {

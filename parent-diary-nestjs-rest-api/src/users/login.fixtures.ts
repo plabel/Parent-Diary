@@ -17,7 +17,8 @@ export const loginTestCases: LoginTestCase[] = [
         logInDto: {
             email: 'test@test.com',
             password: 'password',
-            otp: '123456'
+            otp: '123456',
+            recoveryCode: '123456'
         },
         findOneResolvedValue: null,
         expectedResult: null
@@ -31,7 +32,8 @@ export const loginTestCases: LoginTestCase[] = [
         logInDto: {
             email: 'test@test.com',
             password: 'Password1234',
-            otp: '123456'
+            otp: '123456',
+            recoveryCode: '123456'
         },
         findOneResolvedValue: {
             dataValues: {
@@ -59,7 +61,8 @@ export const loginTestCases: LoginTestCase[] = [
         logInDto: {
             email: 'test@test.com',
             password: 'BadPassword1234',
-            otp: '123456'
+            otp: '123456',
+            recoveryCode: '123456'
         },
         findOneResolvedValue: {
             dataValues: {

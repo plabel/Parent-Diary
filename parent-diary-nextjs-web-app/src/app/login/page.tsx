@@ -58,8 +58,7 @@ export default function LogIn() {
             name="otp"
             className="form-control"
             id="floatingPassword"
-            placeholder="Password"
-            required
+            required={false}
             isInvalid={formErrors.otp}
           />
           <label htmlFor="floatingPassword">OTP from authentication app </label>
@@ -73,8 +72,7 @@ export default function LogIn() {
             name="recoveryCode"
             className="form-control"
             id="floatingPassword"
-            placeholder="Password"
-            required
+            required={false}
             isInvalid={formErrors.recoveryCode}
           />
           <label htmlFor="floatingPassword">Recovery code, instead of OTP</label>

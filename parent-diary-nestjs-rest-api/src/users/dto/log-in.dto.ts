@@ -1,5 +1,5 @@
 
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class LogInDto {
   @IsEmail()
@@ -8,6 +8,11 @@ export class LogInDto {
   @IsNotEmpty() @IsString()
   password: string;
 
-  @IsNotEmpty() @IsString()
+  @IsString()
+  @IsOptional()
   otp: string;
+
+  @IsString()
+  @IsOptional()
+  recoveryCode: string;
 }
