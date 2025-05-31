@@ -51,6 +51,16 @@ export class UsersController {
         (request.session as any).userId = null;
         return true;
     }
+    @Post('reset-recovery-code')
+    async resetRecoveryCode(@Req() request: Request ): Promise<boolean | void> {
+        const userId = (request.session as any).userId;
+        if (!userId) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
+        const user = await this.usersService.resetRecoveryCode(userId);
+        await this.emailService.sendRecoveryCodeEmail(user.dataValues.email, user.dataValues.recoveryCode);
+        return true;
+    }
     @Post('send-reset-password-email')
     async sendResetPasswordEmail(@Query('email') email: string): Promise<boolean | void> {
         const user = await this.usersService.getUserByEmail(email);

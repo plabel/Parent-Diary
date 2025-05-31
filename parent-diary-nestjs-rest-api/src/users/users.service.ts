@@ -131,5 +131,17 @@ export class UsersService {
     }
     return authenticator.keyuri(user.dataValues.email, "Parent Diary", user.dataValues.otpSecret);
   }
-
+  async resetRecoveryCode(userId: string): Promise<User> {
+    const newRecoveryCode = randomBytes(32).toString('hex');
+    await this.userModel.update({
+      recoveryCode: newRecoveryCode
+    }, {
+      where: { id: userId }
+    });
+    const user = await this.userModel.findByPk(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
 }
