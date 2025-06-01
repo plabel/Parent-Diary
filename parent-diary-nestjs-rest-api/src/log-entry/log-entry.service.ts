@@ -100,6 +100,9 @@ export class LogEntryService {
       order: [['createdAt', sort]],
     });
   }
+  async getAllLogEntries(userId: number): Promise<LogEntry[]> {
+    return this.logEntryModel.findAll({ include: [FamilyMember], where: { userId } });
+  }
 
   async deleteLogEntry(id: number, userId: number): Promise<boolean> {
     const result = await this.logEntryModel.destroy({ where: { id, userId } });

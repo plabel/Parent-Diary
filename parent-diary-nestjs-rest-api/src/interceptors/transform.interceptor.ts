@@ -10,6 +10,11 @@ export interface Response<T> {
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
+    const skipIntercept = Reflect.getMetadata('skipGlobalInterceptor', context.getHandler());
+    if (skipIntercept) {
+      return next.handle();
+    }
+
     return next.handle().pipe(map(data => ({ data })));
   }
 }

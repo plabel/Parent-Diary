@@ -25,27 +25,33 @@ export default function LogEntryPage() {
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           setLoading(true);
-          createLogEntry(new FormData(e.currentTarget), showAlert, setFormErrors, formErrors, setLoading);
+          createLogEntry(
+            new FormData(e.currentTarget),
+            showAlert,
+            setFormErrors,
+            formErrors,
+            setLoading
+          );
         }}
       >
         <h1 className="h3 mb-3 fw-normal">Write a new log entry</h1>
         <div className="form-floating mb-2">
-            <h5>Family members</h5>
-            {familyMembers.map((familyMember) => (
-              <Form.Check // prettier-ignore
-                key={familyMember.id}
-                type={"checkbox"}
-                name="familyMembers"
-                value={familyMember.id}
-                label={familyMember.petName}
-              />
-            ))}
-          </div>
+          {familyMembers.length > 0 && <h5>Family members</h5>}
+          {familyMembers.map((familyMember) => (
+            <Form.Check // prettier-ignore
+              key={familyMember.id}
+              type={"checkbox"}
+              name="familyMembers"
+              value={familyMember.id}
+              label={familyMember.petName}
+            />
+          ))}
+        </div>
         <div className="form-floating mb-2">
           <Form.Control
             type="text"
             name="entry"
-            as="textarea" 
+            as="textarea"
             rows={6}
             className="form-control h-50"
             id="floatingInput"

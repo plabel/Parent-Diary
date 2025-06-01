@@ -1,15 +1,21 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Header, HttpException, HttpStatus, Post, Query, Req, Res, StreamableFile, SetMetadata } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
 import { SignInDto } from './dto/sign-in.dto';
 import { randomBytes } from 'crypto';
 import { EmailService } from '../email/email.service';
 import { LogInDto } from './dto/log-in.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { ResetPasswordDto } from './dto/reset-password-dto';
+import { LogEntryService } from '../log-entry/log-entry.service';
+import { FamilyMemberService } from '../family-member/family-member.service';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as os from 'os';
+import { join } from 'path';
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService, private readonly emailService: EmailService) {}
+    constructor(private readonly usersService: UsersService, private readonly emailService: EmailService, private readonly logEntryService: LogEntryService, private readonly familyMemberService: FamilyMemberService) {}
 
     @Get('confirm-email')
     async confirmEmail(@Query('token') token: string): Promise<string> {
@@ -22,6 +28,23 @@ export class UsersController {
         return !!request?.session?.userId ? {
             userId: request.session.userId,
         } : null;
+    }
+    @Get('data-dump')
+    @SetMetadata('skipGlobalInterceptor', true)
+    @Header('Content-Disposition', 'attachment; filename="data-dump.json.txt"')
+    async getDataDump(
+        @Req() request: Request & { session: { userId: string }}
+    ): Promise<StreamableFile> {
+        const data = {
+            user: await this.usersService.getUserById(request.session.userId),
+            logEntries: await this.logEntryService.getAllLogEntries(parseInt(request.session.userId)),
+            familyMembers: await this.familyMemberService.getFamilyMembers(parseInt(request.session.userId)),
+        };
+
+        // Create buffer from JSON data
+        const buffer = Buffer.from(JSON.stringify(data, null, 2));
+        
+        return new StreamableFile(buffer);
     }
     @Get('otp-key-uri')
     async getOtpKeyUri(@Req() request: Request & { session: { userId: string }}): Promise<string | null> {

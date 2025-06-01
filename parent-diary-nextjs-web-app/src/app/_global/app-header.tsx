@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { verifySession } from "./helpers/verifySession";
 import ShowOtpQrCodeModal from "./show-otp-qr-code-modal";
 import ResetRecoveryCodeModal from "../_users/reset-recovery-code";
+import ExportDataBtn from "../_users/export-data-btn";
 
 
 export default function AppHeader({ activeLink }: { activeLink: string }) {
@@ -35,9 +36,10 @@ export default function AppHeader({ activeLink }: { activeLink: string }) {
                   <NavDropdown.Item onClick={() => submitLogOut(showAlert)}>
                     Log out
                   </NavDropdown.Item>
-                  <DeleteUserModal />
-                  <ResetRecoveryCodeModal />
                   <ShowOtpQrCodeModal />
+                  <ResetRecoveryCodeModal />
+                  <ExportDataBtn />
+                  <DeleteUserModal />
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
