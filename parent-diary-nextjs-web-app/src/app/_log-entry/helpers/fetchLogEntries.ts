@@ -1,6 +1,14 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import { LogEntry } from "../types";
 import { FamilyMember } from "@/app/_family-members/types";
+
+/**
+ * Fetch log entries
+ * @param setLogEntries - The function to set the log entries
+ * @param page - The page number
+ * @param search - The search query
+ * @param sort - The sort order
+ */
 export const fetchLogEntries = async (
   setLogEntries: (logEntries: LogEntry[]) => void,
   page: number,
@@ -28,5 +36,5 @@ export const fetchLogEntries = async (
       credentials: "include",
     }
   );
-  setLogEntries(response.data);
+  setLogEntries(response.data ?? []);
 };

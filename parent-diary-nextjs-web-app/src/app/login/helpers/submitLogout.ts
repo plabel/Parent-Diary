@@ -1,6 +1,10 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import { redirect } from "next/navigation";
 
+/**
+ * Submit a logout
+ * @param showAlert - The function to show an alert
+ */
 export async function submitLogOut(
   showAlert: (variant: string, message: string) => void
 ): Promise<void> {

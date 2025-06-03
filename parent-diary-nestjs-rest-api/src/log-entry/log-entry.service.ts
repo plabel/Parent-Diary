@@ -12,7 +12,11 @@ export class LogEntryService {
     @InjectModel(FamilyMemberLogEntries)
     private familyMemberLogEntriesModel: typeof FamilyMemberLogEntries,
   ) {}
-
+  /**
+   * Create a log entry
+   * @param logEntry - The log entry to create
+   * @returns The created log entry
+   */
   async createLogEntry(logEntry: Partial<LogEntry>): Promise<LogEntry | null> {
     const transaction = await this.logEntryModel.sequelize?.transaction();
 
@@ -43,7 +47,17 @@ export class LogEntryService {
       throw error;
     }
   }
-
+  /**
+   * Get log entries
+   * @param userId - The ID of the user
+   * @param page - The page number
+   * @param search - The search query
+   * @param sort - The sort order
+   * @param familyMembers - The IDs of the family members
+   * @param createdAfter - The creation date after
+   * @param createdBefore - The creation date before
+   * @returns The log entries
+   */
   async getLogEntries(
     userId: number,
     page: number,
@@ -100,15 +114,31 @@ export class LogEntryService {
       order: [['createdAt', sort]],
     });
   }
+  /**
+   * Get all log entries for a user
+   * @param userId - The ID of the user
+   * @returns The log entries
+   */
   async getAllLogEntries(userId: number): Promise<LogEntry[]> {
     return this.logEntryModel.findAll({ include: [FamilyMember], where: { userId } });
   }
-
+  /**
+   * Delete a log entry
+   * @param id - The ID of the log entry
+   * @param userId - The ID of the user
+   * @returns True if the log entry was deleted, false otherwise
+   */
   async deleteLogEntry(id: number, userId: number): Promise<boolean> {
     const result = await this.logEntryModel.destroy({ where: { id, userId } });
     return result === 1;
   }
-
+  /**
+   * Update a log entry
+   * @param id - The ID of the log entry
+   * @param logEntry - The log entry to update
+   * @param userId - The ID of the user
+   * @returns The updated log entry
+   */
   async updateLogEntry(
     id: number,
     logEntry: Partial<LogEntry>,

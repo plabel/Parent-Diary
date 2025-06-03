@@ -1,5 +1,12 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 
+/**
+ * Delete a log entry
+ * @param id - The ID of the log entry to delete
+ * @param setLoading - The function to set the loading state
+ * @param showAlert - The function to show an alert
+ * @param fetchLogEntries - The function to fetch the log entries
+ */
 export async function deleteLogEntry(
   id: number,
   setLoading: (loading: boolean) => void,

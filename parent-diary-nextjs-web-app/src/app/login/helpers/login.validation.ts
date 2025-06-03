@@ -7,6 +7,11 @@ export const loginSchema = z.object({
   recoveryCode: z.string().optional(),
 });
 
+/**
+ * Validate a login
+ * @param data - The data to validate
+ * @returns The form errors and the validity of the data
+ */
 export const validateLogin = (data: unknown) => {
   const result = loginSchema.safeParse(data);
   const formErrors: Record<string, boolean> = {

@@ -1,6 +1,13 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import { validateFamilyMember } from "@/app/new-family-member/helpers/family-member.validation";
 
+/**
+ * Update a family member
+ * @param id - The ID of the family member to update
+ * @param formData - The form data
+ * @param showAlert - The function to show an alert
+ * @param setFormErrors - The function to set the form errors
+ */
 export default async function updateFamilyMember(  id: number,
     formData: FormData,
     showAlert: (variant: string, message: string) => void,

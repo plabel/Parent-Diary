@@ -1,5 +1,12 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 
+/**
+ * Confirm a user's email
+ * @param token - The token to confirm the email
+ * @param setIsConfirmed - The function to set the is confirmed state
+ * @param showAlert - The function to show an alert
+ * @param setOtpAuthUrl - The function to set the OTP key URI
+ */
 export const confirmEmail = async (
   token: string,
   setIsConfirmed: (isConfirmed: boolean) => void,

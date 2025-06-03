@@ -1,6 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import { fetchWrapper } from "./fetchWrapper";
 
+/**
+ * Get the OTP key URI for a user
+ * @param setOtpAuthUrl - The function to set the OTP key URI
+ * @param showAlert - The function to show an alert
+ */
 export const getOtpKeyUri = async (
   setOtpAuthUrl: Dispatch<SetStateAction<string | null>>,
   showAlert: (variant: string, message: string) => void

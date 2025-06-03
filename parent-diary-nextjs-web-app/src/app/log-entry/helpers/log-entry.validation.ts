@@ -5,6 +5,11 @@ export const logEntrySchema = z.object({
   familyMembers: z.array(z.string()),
 });
 
+/**
+ * Validate a log entry
+ * @param data - The data to validate
+ * @returns The form errors and the validity of the data
+ */
 export const validateLogEntry = (data: unknown) => {
   const result = logEntrySchema.safeParse(data);
   const formErrors: Record<string, boolean> = {

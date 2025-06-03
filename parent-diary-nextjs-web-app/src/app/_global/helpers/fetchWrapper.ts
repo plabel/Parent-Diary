@@ -1,3 +1,10 @@
+
+/**
+ * Fetch data from the server
+ * @param url - The URL to fetch the data from
+ * @param options - The options for the fetch request
+ * @returns The data from the server
+ */
 export async function fetchWrapper<T>(
   url: string,
   options: RequestInit

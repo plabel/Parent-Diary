@@ -2,6 +2,13 @@ import { redirect } from "next/navigation";
 import { fetchWrapper } from "../../_global/helpers/fetchWrapper";
 import { validateLogEntry } from "./log-entry.validation";
 
+/**
+ * Create a log entry
+ * @param formData - The form data
+ * @param showAlert - The function to show an alert
+ * @param setFormErrors - The function to set the form errors
+ * @param formErrorsState - The form errors state
+ */
 export default async function createLogEntry(
   formData: FormData,
   showAlert: (variant: string, message: string) => void,

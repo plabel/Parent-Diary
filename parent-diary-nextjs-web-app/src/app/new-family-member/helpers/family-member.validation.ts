@@ -6,6 +6,11 @@ export const familyMemberSchema = z.object({
   petName: z.string().min(1),
 });
 
+/**
+ * Validate a family member
+ * @param data - The data to validate
+ * @returns The form errors and the validity of the data
+ */
 export const validateFamilyMember = (data: unknown) => {
   const result = familyMemberSchema.safeParse(data);
   const formErrors: Record<string, boolean> = {

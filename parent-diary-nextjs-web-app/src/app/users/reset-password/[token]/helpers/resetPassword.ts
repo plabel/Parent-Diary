@@ -1,6 +1,14 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import { validateResetPassword } from "./resetPassword.validation";
 import { redirect } from "next/navigation";
+
+/**
+ * Reset a user's password
+ * @param formData - The form data
+ * @param token - The token to reset the password
+ * @param showAlert - The function to show an alert
+ * @param setFormErrors - The function to set the form errors
+ */
 export async function resetPassword(
     formData: FormData,
     token: string,

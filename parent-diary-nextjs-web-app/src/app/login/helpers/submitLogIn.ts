@@ -1,6 +1,15 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 import { validateLogin } from "./login.validation";
 import { redirect } from "next/navigation";
+
+/**
+ * Submit a login
+ * @param formData - The form data
+ * @param showAlert - The function to show an alert
+ * @param setFormErrors - The function to set the form errors
+ * @param formErrorsState - The form errors state
+ * @param setLoading - The function to set the loading state
+ */
 export async function submitLogIn(
   formData: FormData,
   showAlert: (variant: string, message: string) => void,

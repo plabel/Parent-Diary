@@ -14,6 +14,11 @@ export const resetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
+/**
+ * Validate a reset password
+ * @param data - The data to validate
+ * @returns The form errors and the validity of the data
+ */
 export const validateResetPassword = (data: unknown) => {
   const result = resetPasswordSchema.safeParse(data);
   const formErrors: Record<string, boolean> = {

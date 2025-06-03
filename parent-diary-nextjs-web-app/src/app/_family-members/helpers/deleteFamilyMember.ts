@@ -1,5 +1,12 @@
 import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 
+/**
+ * Delete a family member
+ * @param id - The ID of the family member to delete
+ * @param setLoading - The function to set the loading state
+ * @param showAlert - The function to show an alert
+ * @param fetchFamilyMembers - The function to fetch the family members
+ */
 export async function deleteFamilyMember(
   id: number,
   setLoading: (loading: boolean) => void,

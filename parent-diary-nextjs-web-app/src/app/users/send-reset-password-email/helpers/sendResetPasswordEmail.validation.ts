@@ -4,6 +4,11 @@ export const sendResetPasswordEmailSchema = z.object({
   email: z.string().email(),
 });
 
+/**
+ * Validate a send reset password email
+ * @param data - The data to validate
+ * @returns The form errors and the validity of the data
+ */
 export const validateSendResetPasswordEmail = (data: unknown) => {
   const result = sendResetPasswordEmailSchema.safeParse(data);
   const formErrors: Record<string, boolean> = {

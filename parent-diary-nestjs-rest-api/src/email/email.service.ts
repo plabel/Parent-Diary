@@ -17,6 +17,13 @@ export class EmailService {
         } as MailOptions;
         this.transporter = createTransport(mailOptions);
     }
+    /**
+     * Send an email
+     * @param to - The email address of the recipient
+     * @param subject - The subject of the email
+     * @param text - The text of the email
+     * @returns The message ID of the email
+     */
     async sendEmail(to: string, subject: string, text: string) {
         const info = await this.transporter.sendMail({
             from: this.configService.get('email.auth.user'),
@@ -26,6 +33,12 @@ export class EmailService {
         });
         return info.messageId;
     }
+    /**
+     * Send a confirmation email
+     * @param to - The email address of the recipient
+     * @param token - The token to be used for confirmation
+     * @returns The message ID of the email
+     */
     async sendConfirmationEmail(to: string, token: string) {
         const tokenObj = {
             token,
@@ -40,6 +53,12 @@ export class EmailService {
         `;
         await this.sendEmail(to, 'Confirm email', html);
     }
+    /**
+     * Send a password reset email
+     * @param to - The email address of the recipient
+     * @param token - The token to be used for password reset
+     * @returns The message ID of the email
+     */
     async sendPasswordResetEmail(to: string, token: string) {
         const tokenObj = {
             token,
@@ -54,6 +73,12 @@ export class EmailService {
         `;
         await this.sendEmail(to, 'Reset password', html);
     }
+    /**
+     * Send a recovery code email
+     * @param to - The email address of the recipient
+     * @param recoveryCode - The recovery code to be used for recovery
+     * @returns The message ID of the email
+     */
     async sendRecoveryCodeEmail(to: string, recoveryCode: string) {
         const html = `
             Here is your recovery code, please save it in a safe place (it is also recommended to delete this email after saving the recovery code):
