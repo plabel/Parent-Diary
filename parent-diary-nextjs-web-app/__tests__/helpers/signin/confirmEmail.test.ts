@@ -10,7 +10,8 @@ describe('confirmEmail', () => {
         (fetchWrapper as jest.Mock).mockResolvedValueOnce(fetchWrapperMockResult);
         const showAlertFn = jest.fn();
         const setIsConfirmedFn = jest.fn();
-        await confirmEmail(token, setIsConfirmedFn, showAlertFn);
+        const setOtpAuthUrlFn = jest.fn();
+        await confirmEmail(token, setIsConfirmedFn, showAlertFn, setOtpAuthUrlFn);
         expect(showAlertFn).toHaveBeenCalledTimes(showAlertNbOfCalls);
         expect(setIsConfirmedFn).toHaveBeenCalledTimes(setIsConfirmedNbOfCalls);
     });

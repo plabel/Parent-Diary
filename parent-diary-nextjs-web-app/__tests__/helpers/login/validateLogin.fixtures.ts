@@ -22,6 +22,8 @@ export const testCases: ValidateLoginTestCase[] = [
             formErrors: {
                 email: false,
                 password: false,
+                otp: false,
+                recoveryCode: false,
             },
             isValid: true,
         },
@@ -40,6 +42,8 @@ export const testCases: ValidateLoginTestCase[] = [
             formErrors: {
                 email: true,
                 password: false,
+                otp: false,
+                recoveryCode: false,
             },
             isValid: false,
         },

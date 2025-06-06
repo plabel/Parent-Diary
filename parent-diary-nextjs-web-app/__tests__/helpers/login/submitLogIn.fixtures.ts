@@ -29,6 +29,8 @@ export const testCases: SubmitLogInTestCase[] = [
       const formData = new FormData();
       formData.set("email", "test@test.com");
       formData.set("password", "Password123!");
+      formData.set("otp", "123456");
+      formData.set("recoveryCode", "");
       return formData;
     })(),
   },
@@ -53,6 +55,8 @@ export const testCases: SubmitLogInTestCase[] = [
       const formData = new FormData();
       formData.set("email", "test@test.com");
       formData.set("password", "Password123!");
+      formData.set("otp", "123456");
+      formData.set("recoveryCode", "");
       return formData;
     })(),
   },
@@ -76,6 +80,8 @@ export const testCases: SubmitLogInTestCase[] = [
       const formData = new FormData();
       formData.set("email", "test@test.com");
       formData.set("password", "Password123!");
+      formData.set("otp", "123456");
+      formData.set("recoveryCode", "");
       return formData;
     })(),
   },
