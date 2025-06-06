@@ -1,7 +1,7 @@
 import { Controller, Get, Req, UseGuards, Delete, Param, Post, Body, Patch } from '@nestjs/common';
 import { FamilyMemberService } from './family-member.service';
 import { FamilyMember } from './family-member.model';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { AuthGuard } from '../guard/auth/auth.guard';
 
 @Controller('family-member')
 export class FamilyMemberController {

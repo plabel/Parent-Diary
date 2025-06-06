@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { LogEntryService } from './log-entry.service';
 import { LogEntry } from './log-entry.model';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { AuthGuard } from '../guard/auth/auth.guard';
 
 @Controller('log-entry')
 export class LogEntryController {

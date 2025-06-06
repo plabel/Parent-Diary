@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FamilyMemberLogEntries, LogEntry } from './log-entry.model';
-import { FamilyMember } from 'src/family-member/family-member.model';
+import { FamilyMember } from '../family-member/family-member.model';
 import { Includeable, Op, Sequelize, WhereOptions } from 'sequelize';
 
 @Injectable()
