@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // Define many-to-many relationship with FamilyMember
       LogEntry.belongsToMany(models.FamilyMember, {
         through: models.FamilyMemberLogEntries,
+        onDelete: 'SET NULL',
+        onUpdate: 'SET NULL',
       });
     }
   }

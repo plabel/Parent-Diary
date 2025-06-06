@@ -11,6 +11,8 @@ module.exports = {
       },
       familyMemberId: {
         type: Sequelize.INTEGER,
+        onDelete: 'SET NULL',
+        onUpdate: 'SET NULL',
         references: {
           model: "FamilyMembers",
           key: 'id',
@@ -18,6 +20,8 @@ module.exports = {
       },
       logEntryId: {
         type: Sequelize.INTEGER,
+        onDelete: 'SET NULL',
+        onUpdate: 'SET NULL',
         references: {
           model: "LogEntries", 
           key: 'id',
