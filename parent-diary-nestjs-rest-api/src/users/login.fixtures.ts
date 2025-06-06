@@ -40,7 +40,8 @@ export const loginTestCases: LoginTestCase[] = [
                 id: '1234567890',
                 email: 'test@test.com',
                 salt: '2a5b56e548971eed76c65369f5e5a533e4fdded4',
-                passwordHash: "b3c2a74326c663b378f90e65863c0ac2ff8c4ffd422ea32dcec1e8e44d13dd31"
+                passwordHash: "b3c2a74326c663b378f90e65863c0ac2ff8c4ffd422ea32dcec1e8e44d13dd31",
+                otpSecret: "123456",
             }
         } as User,
         expectedResult: {
@@ -48,7 +49,8 @@ export const loginTestCases: LoginTestCase[] = [
                 id: '1234567890',
                 email: 'test@test.com',
                 salt: '2a5b56e548971eed76c65369f5e5a533e4fdded4',
-                passwordHash: "b3c2a74326c663b378f90e65863c0ac2ff8c4ffd422ea32dcec1e8e44d13dd31"
+                passwordHash: "b3c2a74326c663b378f90e65863c0ac2ff8c4ffd422ea32dcec1e8e44d13dd31",
+                otpSecret: "123456",
             }
         } as User
     },

@@ -7,6 +7,13 @@ import { User } from './user.model';
 import { getModelToken } from '@nestjs/sequelize';
 import { confirmEmailTestCases } from './confirmEmail.fixtures';
 import { loginTestCases } from './login.fixtures';
+jest.mock('otplib', () => ({
+  authenticator: {
+    verify: jest.fn().mockReturnValue(true),
+    generateSecret: jest.fn().mockReturnValue('123456'),
+    generate: jest.fn().mockReturnValue('123456'),
+  },
+}));
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -65,8 +72,17 @@ describe('UsersService', () => {
   it.each(confirmEmailTestCases)('$description', async ({ token, updateResolvedValue }) => {
     try {
       jest
-        .spyOn(module.get(getModelToken(User)), 'update')
+        .spyOn(module.get(getModelToken(User)), 'findByPk')
         .mockResolvedValue(updateResolvedValue);
+      jest
+        .spyOn(module.get(getModelToken(User)), 'update')
+        .mockResolvedValue([1]);
+      jest
+        .spyOn(global.JSON, 'parse')
+        .mockReturnValue({
+          token: '1234567890',
+          creationDate: Date.now(),
+        });
       const result = await service.confirmEmail(token);
       expect(result).toEqual(true);
     } catch (error) {
