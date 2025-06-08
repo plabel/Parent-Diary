@@ -8,6 +8,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { confirmEmailTestCases } from './confirmEmail.fixtures';
 import { loginTestCases } from './login.fixtures';
 import { resetRecoveryCodeTestCases } from './resetRecoveryCode.fixtures';
+import { resetPasswordTestCases } from './resetPassword.fixtures';
 jest.mock('otplib', () => ({
   authenticator: {
     verify: jest.fn().mockReturnValue(true),
@@ -115,6 +116,34 @@ describe('UsersService', () => {
           .spyOn(module.get(getModelToken(User)), 'findByPk')
           .mockResolvedValue(findByPkResolvedValue);
         const result = await service.resetRecoveryCode(userId);
+        expect(result).toEqual(expectedResult);
+      } catch (error) {
+        expect(error).toEqual(expectedError);
+      }
+    },
+  );
+  it.each(resetPasswordTestCases)(
+    '$description',
+    async ({ expectedResult, expectedError, tokenObj, updateAffectedCount, now }) => {
+      try {
+        jest
+          .spyOn(module.get(getModelToken(User)), 'update')
+          .mockResolvedValue([updateAffectedCount]);
+        jest
+          .spyOn(global.JSON, 'parse')
+          .mockReturnValue(tokenObj);
+        jest
+          .spyOn(global.Date, 'now')
+          .mockReturnValue(now);
+        jest
+          .spyOn(module.get<ConfigService>(ConfigService), 'get')
+          .mockImplementation((key: string) => {
+            if (key === 'token_expiration_time_in_minutes') {
+              return 15;
+            }
+            return masterKey;
+          });
+        const result = await service.resetPassword("token", "password");
         expect(result).toEqual(expectedResult);
       } catch (error) {
         expect(error).toEqual(expectedError);

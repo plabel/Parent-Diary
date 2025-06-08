@@ -118,14 +118,14 @@ export class UsersService {
       throw new Error('Token expired');
     }
     const salt: string = randomBytes(20).toString('hex');
-    const user = await this.userModel.update({
+    const [affectedCount] = await this.userModel.update({
       passwordHash: this.hashPassword(password, salt),
       salt: salt,
       encryptedSecretKey: this.generateEncryptedSecretKey()
     }, {
       where: { id: tokenObj.token }
     });
-    if (!user) {
+    if (affectedCount === 0) {
       throw new Error('User not found');
     }
     return true;
