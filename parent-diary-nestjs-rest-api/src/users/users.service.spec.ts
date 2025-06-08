@@ -7,11 +7,13 @@ import { User } from './user.model';
 import { getModelToken } from '@nestjs/sequelize';
 import { confirmEmailTestCases } from './confirmEmail.fixtures';
 import { loginTestCases } from './login.fixtures';
+import { resetRecoveryCodeTestCases } from './resetRecoveryCode.fixtures';
 jest.mock('otplib', () => ({
   authenticator: {
     verify: jest.fn().mockReturnValue(true),
     generateSecret: jest.fn().mockReturnValue('123456'),
     generate: jest.fn().mockReturnValue('123456'),
+    keyuri: jest.fn().mockReturnValue('123456'),
   },
 }));
 
@@ -35,6 +37,7 @@ describe('UsersService', () => {
           useValue: {
             create: jest.fn(),
             findOne: jest.fn(),
+            findByPk: jest.fn(),
             update: jest.fn(),
           },
         },
@@ -69,32 +72,53 @@ describe('UsersService', () => {
     expect(decryptedSecretKey).toEqual(decryptedSecretKey2);
   });
 
-  it.each(confirmEmailTestCases)('$description', async ({ token, updateResolvedValue }) => {
-    try {
-      jest
-        .spyOn(module.get(getModelToken(User)), 'findByPk')
-        .mockResolvedValue(updateResolvedValue);
-      jest
-        .spyOn(module.get(getModelToken(User)), 'update')
-        .mockResolvedValue([1]);
-      jest
-        .spyOn(global.JSON, 'parse')
-        .mockReturnValue({
+  it.each(confirmEmailTestCases)(
+    '$description',
+    async ({ token, findByPkResolvedValue: findByPkResolvedValue, expectedResult }) => {
+      try {
+        jest
+          .spyOn(module.get(getModelToken(User)), 'findByPk')
+          .mockResolvedValue(findByPkResolvedValue);
+        jest
+          .spyOn(module.get(getModelToken(User)), 'update')
+          .mockResolvedValue([1]);
+        jest.spyOn(global.JSON, 'parse').mockReturnValue({
           token: '1234567890',
           creationDate: Date.now(),
         });
-      const result = await service.confirmEmail(token);
-      expect(result).toEqual(true);
-    } catch (error) {
-      expect(error).toEqual(new Error('User not found'));
-    }
-  });
+        const result = await service.confirmEmail(token);
+        expect(result).toEqual(expectedResult);
+      } catch (error) {
+        expect(error).toEqual(new Error('User not found'));
+      }
+    },
+  );
 
-  it.each(loginTestCases)('$description', async ({ logInDto, findOneResolvedValue, expectedResult }) => {
-    jest
-      .spyOn(module.get(getModelToken(User)), 'findOne')
-      .mockResolvedValue(findOneResolvedValue);
-    const result = await service.logIn(logInDto);
-    expect(result).toEqual(expectedResult);
-});
+  it.each(loginTestCases)(
+    '$description',
+    async ({ logInDto, findOneResolvedValue, expectedResult }) => {
+      jest
+        .spyOn(module.get(getModelToken(User)), 'findOne')
+        .mockResolvedValue(findOneResolvedValue);
+      const result = await service.logIn(logInDto);
+      expect(result).toEqual(expectedResult);
+    },
+  );
+  it.each(resetRecoveryCodeTestCases)(
+    '$description',
+    async ({ userId, findByPkResolvedValue, expectedResult, expectedError }) => {
+      try {
+        jest
+          .spyOn(module.get(getModelToken(User)), 'update')
+          .mockResolvedValue([1]);
+        jest
+          .spyOn(module.get(getModelToken(User)), 'findByPk')
+          .mockResolvedValue(findByPkResolvedValue);
+        const result = await service.resetRecoveryCode(userId);
+        expect(result).toEqual(expectedResult);
+      } catch (error) {
+        expect(error).toEqual(expectedError);
+      }
+    },
+  );
 });

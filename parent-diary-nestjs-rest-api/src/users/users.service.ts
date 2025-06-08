@@ -158,7 +158,7 @@ export class UsersService {
       }
     });
     const user = await this.userModel.findByPk(tokenObj.token)
-    if (!user && affectedCount === 0 || user === null) {
+    if (!user) {
       throw new Error('User not found');
     }
     return {
