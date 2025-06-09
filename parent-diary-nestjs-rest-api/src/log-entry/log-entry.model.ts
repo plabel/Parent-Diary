@@ -13,7 +13,6 @@ export class LogEntry extends Model {
   @BelongsToMany(() => FamilyMember, () => FamilyMemberLogEntries)
   familyMembers: FamilyMember[];
 }
-
 @Table
 export class FamilyMemberLogEntries extends Model {
   @ForeignKey(() => FamilyMember)

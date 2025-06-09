@@ -20,20 +20,20 @@ export class LogEntryController {
 
   @Get()
   @UseGuards(AuthGuard)
-  getLogEntries(
-    @Query('page') page: number,
-    @Query('search') search: string,
-    @Query('sort') sort: string,
-    @Query('familyMembers') familyMembersRaw: string,
-    @Query('createdAfter') createdAfter: string,
-    @Query('createdBefore') createdBefore: string,
+  async getLogEntries(
+    @Query('page') page: number = 1,
+    @Query('search') search: string = '',
+    @Query('sort') sort: string = 'DESC',
+    @Query('familyMembers') familyMembersRaw: string = '',
+    @Query('createdAfter') createdAfter: string = '',
+    @Query('createdBefore') createdBefore: string = '',
     @Req() request: Request & { session: { userId: string } },
   ): Promise<LogEntry[]> {
     const familyMembers = familyMembersRaw
       ? familyMembersRaw.split(',').map(Number)
       : [];
     const userId = (request.session as any).userId;
-    return this.logEntryService.getLogEntries(
+    const result = await this.logEntryService.getLogEntries(
       userId,
       page,
       search,
@@ -42,6 +42,7 @@ export class LogEntryController {
       createdAfter,
       createdBefore,
     );
+    return result;
   }
 
   @Delete(':id')
