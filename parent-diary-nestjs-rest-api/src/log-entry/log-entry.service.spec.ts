@@ -4,6 +4,7 @@ import { FamilyMemberLogEntries, LogEntry } from './log-entry.model';
 import { getModelToken } from '@nestjs/sequelize';
 import { createLogEntryTestCases } from './createLogEntry.fixtures';
 import { getLogEntriesTestCases } from './getLogEntries.fixtures';
+import { updateLogEntryTestCases } from './updateLogEntry.fixtures';
 describe('LogEntryService', () => {
   let service: LogEntryService;
   let module: TestingModule;
@@ -25,8 +26,9 @@ describe('LogEntryService', () => {
           useValue: {
             create: jest.fn(),
             findOne: jest.fn(),
-            update: jest.fn(),
             bulkCreate: jest.fn(),
+            update: jest.fn(),
+            destroy: jest.fn(),
           },
         }],
     }).compile();
@@ -65,6 +67,22 @@ describe('LogEntryService', () => {
             .spyOn(module.get(getModelToken(LogEntry)), 'findAll')
             .mockResolvedValue(expectedResult);
           const result = await service.getLogEntries(userId, page, search, sort, familyMembers, createdAfter, createdBefore);
+          expect(result).toEqual(expectedResult);
+        } catch (error) {
+          expect(error).toEqual(expectedError);
+        }
+      },
+    );
+  });
+  describe('updateLogEntry', () => {
+    it.each(updateLogEntryTestCases)(
+      '$description',
+      async ({ id, logEntry, userId, expectedResult, expectedError }) => {
+        try {
+          jest
+            .spyOn(module.get(getModelToken(LogEntry)), 'findByPk')
+            .mockResolvedValue(expectedResult);
+          const result = await service.updateLogEntry(id, logEntry, userId);
           expect(result).toEqual(expectedResult);
         } catch (error) {
           expect(error).toEqual(expectedError);
