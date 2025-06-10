@@ -51,16 +51,17 @@ describe('Log Entry (e2e)', () => {
       })
       .expect(201);
     expect(createResponse.body).toBeInstanceOf(Object);
-
+    expect(createResponse.body.familyMembers.map((familyMember: { id: number }) => familyMember.id)).toEqual([1, 2]);
     // update log entry
     const updateResponse = await agent.patch(`/log-entry/${createResponse.body.id}`)
       .withCredentials()
       .send({
         entry: 'This is a test log entry updated',
+        familyMembers: [2],
       })
       .expect(200);
     expect(updateResponse.body).toBeInstanceOf(Object);
-
+    expect(updateResponse.body.familyMembers.map((familyMember: { id: number }) => familyMember.id)).toEqual([2]);
     // delete log entry
     const deleteResponse = await agent.delete(`/log-entry/${createResponse.body.id}`)
       .withCredentials()
