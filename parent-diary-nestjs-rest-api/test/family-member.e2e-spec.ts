@@ -5,7 +5,7 @@ import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 import * as session from 'express-session';
 import { randomBytes } from 'crypto';
-describe('Log Entry (e2e)', () => {
+describe('Family Member (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('Log Entry (e2e)', () => {
     await app.init();
   });
 
-  it('CRUD log entries', async () => {
+  it('CRUD family members', async () => {
     const agent = request.agent(app.getHttpServer());
     // log in
     const loginResponse: { res: { text: string }} = await agent.post('/users/log-in')
@@ -36,33 +36,34 @@ describe('Log Entry (e2e)', () => {
       .expect(201) as unknown as { res: { text: string }};
     expect(loginResponse.res.text).toBe("true");
 
-    // read log entries
-    const response = await agent.get('/log-entry')
+    // read family members
+    const response = await agent.get('/family-member')
       .withCredentials()
       .expect(200);
     expect(response.body).toBeInstanceOf(Array);
 
-    // create log entry
-    const createResponse = await agent.post('/log-entry')
+    // create family member
+    const createResponse = await agent.post('/family-member')
       .withCredentials()
       .send({
-        entry: 'This is a test log entry',
-        familyMembers: [1, 2],
+        name: 'John Doe',
+        age: 30,
+        gender: 'male',
       })
       .expect(201);
     expect(createResponse.body).toBeInstanceOf(Object);
 
-    // update log entry
-    const updateResponse = await agent.patch(`/log-entry/${createResponse.body.id}`)
+    // update family member
+    const updateResponse = await agent.patch(`/family-member/${createResponse.body.id}`)
       .withCredentials()
       .send({
-        entry: 'This is a test log entry updated',
+        name: 'John Doe updated',
       })
       .expect(200);
     expect(updateResponse.body).toBeInstanceOf(Object);
 
-    // delete log entry
-    const deleteResponse = await agent.delete(`/log-entry/${createResponse.body.id}`)
+    // delete family member
+    const deleteResponse = await agent.delete(`/family-member/${createResponse.body.id}`)
       .withCredentials()
       .expect(200);
     expect(deleteResponse.text).toBe("true");
