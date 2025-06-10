@@ -1,11 +1,11 @@
 import { fetchLogEntries } from "@/app/_log-entry/helpers/fetchLogEntries";
+import { testCases } from "./fetchLogEntries.fixtures";
+import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 
 jest.mock('@/app/_global/helpers/fetchWrapper', () => ({
     fetchWrapper: jest.fn(),
 }));
 
-import { testCases } from "./fetchLogEntries.fixtures";
-import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
 
 describe('fetchLogEntries', () => {
     test.each(testCases)('$description', async ({ fetchWrapperMockResult, setLogEntriesArgs, createdAfter, createdBefore }) => {
