@@ -1,4 +1,3 @@
-
 /**
  * Fetch data from the server
  * @param url - The URL to fetch the data from
@@ -7,7 +6,7 @@
  */
 export async function fetchWrapper<T>(
   url: string,
-  options: RequestInit
+  options: RequestInit,
 ): Promise<{ data: T | null; error: { message: string } | null }> {
   try {
     const response = await fetch(url, options);
@@ -20,7 +19,7 @@ export async function fetchWrapper<T>(
     return {
       data: null,
       error: {
-        message: "Failed to fetch data, check your internet connection",
+        message: 'Failed to fetch data, check your internet connection',
       },
     };
   }

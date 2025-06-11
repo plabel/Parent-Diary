@@ -1,6 +1,6 @@
-import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
-import { validateLogin } from "./login.validation";
-import { redirect } from "next/navigation";
+import { fetchWrapper } from '@/app/_global/helpers/fetchWrapper';
+import { validateLogin } from './login.validation';
+import { redirect } from 'next/navigation';
 
 /**
  * Submit a login
@@ -15,12 +15,12 @@ export async function submitLogIn(
   showAlert: (variant: string, message: string) => void,
   setFormErrors: (formErrors: Record<string, boolean>) => void,
   formErrorsState: Record<string, boolean>,
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
 ): Promise<void> {
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const otp = formData.get("otp");
-  const recoveryCode = formData.get("recoveryCode");
+  const email = formData.get('email');
+  const password = formData.get('password');
+  const otp = formData.get('otp');
+  const recoveryCode = formData.get('recoveryCode');
   const payload = { email, password, otp, recoveryCode };
   const { formErrors, isValid } = validateLogin(payload);
   const updatedFormErrors = {
@@ -33,25 +33,22 @@ export async function submitLogIn(
     return;
   }
 
-  const {data, error} = await fetchWrapper<boolean>(
+  const { data, error } = await fetchWrapper<boolean>(
     `${process.env.NEXT_PUBLIC_REST_API_URL}/users/log-in`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   );
   if (data) {
-    showAlert(
-      "success",
-      "Log in successful"
-    );
-    redirect("/home");
+    showAlert('success', 'Log in successful');
+    redirect('/home');
   } else {
-    showAlert("danger", error?.message ?? "Log in failed");
+    showAlert('danger', error?.message ?? 'Log in failed');
   }
   setLoading(false);
 }

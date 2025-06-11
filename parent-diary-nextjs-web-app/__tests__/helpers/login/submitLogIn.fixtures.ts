@@ -21,16 +21,13 @@ export const testCases: SubmitLogInTestCase[] = [
       error: null,
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "success",
-      "Log in successful",
-    ],
+    showAlertArgs: ['success', 'Log in successful'],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("password", "Password123!");
-      formData.set("otp", "123456");
-      formData.set("recoveryCode", "");
+      formData.set('email', 'test@test.com');
+      formData.set('password', 'Password123!');
+      formData.set('otp', '123456');
+      formData.set('recoveryCode', '');
       return formData;
     })(),
   },
@@ -43,20 +40,17 @@ export const testCases: SubmitLogInTestCase[] = [
     fetchWrapperMockResult: {
       data: false,
       error: {
-        message: "Log in failed",
+        message: 'Log in failed',
       },
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "danger",
-      "Log in failed",
-    ],
+    showAlertArgs: ['danger', 'Log in failed'],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("password", "Password123!");
-      formData.set("otp", "123456");
-      formData.set("recoveryCode", "");
+      formData.set('email', 'test@test.com');
+      formData.set('password', 'Password123!');
+      formData.set('otp', '123456');
+      formData.set('recoveryCode', '');
       return formData;
     })(),
   },
@@ -68,20 +62,16 @@ export const testCases: SubmitLogInTestCase[] = [
     `,
     fetchWrapperMockResult: {
       data: false,
-      error: {
-      },
+      error: {},
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "danger",
-      "Log in failed",
-    ],
+    showAlertArgs: ['danger', 'Log in failed'],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("password", "Password123!");
-      formData.set("otp", "123456");
-      formData.set("recoveryCode", "");
+      formData.set('email', 'test@test.com');
+      formData.set('password', 'Password123!');
+      formData.set('otp', '123456');
+      formData.set('recoveryCode', '');
       return formData;
     })(),
   },
@@ -96,14 +86,11 @@ export const testCases: SubmitLogInTestCase[] = [
       error: null,
     },
     showAlertNbOfCalls: 0,
-    showAlertArgs: [
-      "",
-      "",
-    ],
+    showAlertArgs: ['', ''],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("password", "");
+      formData.set('email', 'test@test.com');
+      formData.set('password', '');
       return formData;
     })(),
   },

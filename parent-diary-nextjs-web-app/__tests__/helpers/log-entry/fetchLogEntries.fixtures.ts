@@ -8,7 +8,7 @@ type FetchLogEntriesTestCase = {
 
 export const testCases: FetchLogEntriesTestCase[] = [
   {
-    description: "should fetch log entries",
+    description: 'should fetch log entries',
     fetchWrapperMockResult: {
       data: [],
       error: null,
@@ -18,11 +18,11 @@ export const testCases: FetchLogEntriesTestCase[] = [
     createdBefore: null,
   },
   {
-    description: "should fetch log entries, fetch error",
+    description: 'should fetch log entries, fetch error',
     fetchWrapperMockResult: {
       data: null,
       error: {
-        message: "Fetch error",
+        message: 'Fetch error',
       },
     },
     setLogEntriesArgs: [[]],
@@ -30,13 +30,13 @@ export const testCases: FetchLogEntriesTestCase[] = [
     createdBefore: null,
   },
   {
-    description: "should fetch log entries, fetches 1 entry",
+    description: 'should fetch log entries, fetches 1 entry',
     fetchWrapperMockResult: {
       data: [
         {
           id: 1,
-          entry: "Test entry",
-          createdAt: "2021-01-01",
+          entry: 'Test entry',
+          createdAt: '2021-01-01',
         },
       ],
       error: null,
@@ -45,8 +45,8 @@ export const testCases: FetchLogEntriesTestCase[] = [
       [
         {
           id: 1,
-          entry: "Test entry",
-          createdAt: "2021-01-01",
+          entry: 'Test entry',
+          createdAt: '2021-01-01',
         },
       ],
     ],
@@ -54,13 +54,13 @@ export const testCases: FetchLogEntriesTestCase[] = [
     createdBefore: null,
   },
   {
-    description: "should fetch log entries, with date filters",
+    description: 'should fetch log entries, with date filters',
     fetchWrapperMockResult: {
       data: [],
       error: null,
     },
     setLogEntriesArgs: [[]],
-    createdAfter: new Date("2021-01-01"),
-    createdBefore: new Date("2021-01-02"),
+    createdAfter: new Date('2021-01-01'),
+    createdBefore: new Date('2021-01-02'),
   },
 ];

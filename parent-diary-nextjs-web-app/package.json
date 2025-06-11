@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "format": "prettier --write \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -30,6 +31,7 @@
     "@types/qrcode": "^1.5.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prettier": "^3.4.2",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "jest": "^29.7.0",

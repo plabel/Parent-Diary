@@ -22,15 +22,15 @@ export const testCases: SubmitSignInTestCase[] = [
     },
     showAlertNbOfCalls: 1,
     showAlertArgs: [
-      "success",
-      "Sign in successful, please check your email for a confirmation link",
+      'success',
+      'Sign in successful, please check your email for a confirmation link',
     ],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("firstName", "Test");
-      formData.set("lastName", "Test");
-      formData.set("password", "Password123!");
+      formData.set('email', 'test@test.com');
+      formData.set('firstName', 'Test');
+      formData.set('lastName', 'Test');
+      formData.set('password', 'Password123!');
       return formData;
     })(),
   },
@@ -43,20 +43,17 @@ export const testCases: SubmitSignInTestCase[] = [
     fetchWrapperMockResult: {
       data: false,
       error: {
-        message: "Sign in failed",
+        message: 'Sign in failed',
       },
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "danger",
-      "Sign in failed",
-    ],
+    showAlertArgs: ['danger', 'Sign in failed'],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("firstName", "Test");
-      formData.set("lastName", "Test");
-      formData.set("password", "Password123!");
+      formData.set('email', 'test@test.com');
+      formData.set('firstName', 'Test');
+      formData.set('lastName', 'Test');
+      formData.set('password', 'Password123!');
       return formData;
     })(),
   },
@@ -68,20 +65,16 @@ export const testCases: SubmitSignInTestCase[] = [
     `,
     fetchWrapperMockResult: {
       data: false,
-      error: {
-      },
+      error: {},
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "danger",
-      "Sign in failed",
-    ],
+    showAlertArgs: ['danger', 'Sign in failed'],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("firstName", "Test");
-      formData.set("lastName", "Test");
-      formData.set("password", "Password123!");
+      formData.set('email', 'test@test.com');
+      formData.set('firstName', 'Test');
+      formData.set('lastName', 'Test');
+      formData.set('password', 'Password123!');
       return formData;
     })(),
   },
@@ -96,16 +89,13 @@ export const testCases: SubmitSignInTestCase[] = [
       error: null,
     },
     showAlertNbOfCalls: 0,
-    showAlertArgs: [
-      "",
-      "",
-    ],
+    showAlertArgs: ['', ''],
     formData: (() => {
       const formData = new FormData();
-      formData.set("email", "test@test.com");
-      formData.set("firstName", "Test");
-      formData.set("lastName", "Test");
-      formData.set("password", "");
+      formData.set('email', 'test@test.com');
+      formData.set('firstName', 'Test');
+      formData.set('lastName', 'Test');
+      formData.set('password', '');
       return formData;
     })(),
   },

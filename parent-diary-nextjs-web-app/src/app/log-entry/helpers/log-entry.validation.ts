@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const logEntrySchema = z.object({
   entry: z.string().min(1),
@@ -16,7 +16,7 @@ export const validateLogEntry = (data: unknown) => {
     entry: false,
     familyMembers: false,
   };
-  if(result.success === false && result.error) {
+  if (result.success === false && result.error) {
     result.error.issues.forEach((issue) => {
       formErrors[issue.path[0] as string] = true;
     });

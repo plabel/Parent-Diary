@@ -19,10 +19,7 @@ export const testCases: SubmitLogOutTestCase[] = [
       error: null,
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "success",
-      "Log out successful",
-    ],
+    showAlertArgs: ['success', 'Log out successful'],
   },
   {
     description: `
@@ -33,13 +30,10 @@ export const testCases: SubmitLogOutTestCase[] = [
     fetchWrapperMockResult: {
       data: false,
       error: {
-        message: "Log out failed",
+        message: 'Log out failed',
       },
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "danger",
-      "Log out failed",
-    ],
+    showAlertArgs: ['danger', 'Log out failed'],
   },
 ];

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const familyMemberSchema = z.object({
   firstName: z.string().min(1),
@@ -18,7 +18,7 @@ export const validateFamilyMember = (data: unknown) => {
     lastName: false,
     petName: false,
   };
-  if(result.success === false && result.error) {
+  if (result.success === false && result.error) {
     result.error.issues.forEach((issue) => {
       formErrors[issue.path[0] as string] = true;
     });

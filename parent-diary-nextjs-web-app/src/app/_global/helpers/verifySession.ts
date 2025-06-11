@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
-import { fetchWrapper } from "./fetchWrapper";
+import { redirect } from 'next/navigation';
+import { fetchWrapper } from './fetchWrapper';
 
 /**
  * Verify the session
@@ -9,13 +9,13 @@ export async function verifySession() {
   const { data, error } = await fetchWrapper<{ userId: string }>(
     `${process.env.NEXT_PUBLIC_REST_API_URL}/users/current-user`,
     {
-      method: "GET",
-      credentials: "include",
-    }
+      method: 'GET',
+      credentials: 'include',
+    },
   );
   if (data && data.userId && error === undefined) {
     return data.userId;
   } else {
-    redirect("/login");
+    redirect('/login');
   }
 }

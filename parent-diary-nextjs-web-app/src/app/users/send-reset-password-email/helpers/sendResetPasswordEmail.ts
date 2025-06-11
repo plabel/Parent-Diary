@@ -1,6 +1,6 @@
-import { fetchWrapper } from "@/app/_global/helpers/fetchWrapper";
-import { validateSendResetPasswordEmail } from "./sendResetPasswordEmail.validation";
-import { redirect } from "next/navigation";
+import { fetchWrapper } from '@/app/_global/helpers/fetchWrapper';
+import { validateSendResetPasswordEmail } from './sendResetPasswordEmail.validation';
+import { redirect } from 'next/navigation';
 
 /**
  * Send a reset password email
@@ -15,9 +15,9 @@ export async function sendResetPasswordEmail(
   showAlert: (variant: string, message: string) => void,
   setFormErrors: (formErrors: Record<string, boolean>) => void,
   formErrorsState: Record<string, boolean>,
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
 ): Promise<void> {
-  const email = formData.get("email");
+  const email = formData.get('email');
   const payload = { email };
   const { formErrors, isValid } = validateSendResetPasswordEmail(payload);
   const updatedFormErrors = {
@@ -30,24 +30,21 @@ export async function sendResetPasswordEmail(
     return;
   }
 
-  const {data, error} = await fetchWrapper<boolean>(
+  const { data, error } = await fetchWrapper<boolean>(
     `${process.env.NEXT_PUBLIC_REST_API_URL}/users/send-reset-password-email?email=${encodeURIComponent(email as string)}`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   );
   if (data) {
-    showAlert(
-      "success",
-      "Reset password email sent"
-    );
-    redirect("/login");
+    showAlert('success', 'Reset password email sent');
+    redirect('/login');
   } else {
-    showAlert("danger", error?.message ?? "Reset password email not sent");
+    showAlert('danger', error?.message ?? 'Reset password email not sent');
   }
   setLoading(false);
 }

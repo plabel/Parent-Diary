@@ -19,10 +19,7 @@ export const testCases: DeleteUserTestCase[] = [
       error: null,
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "success",
-      "User deleted successfully",
-    ],
+    showAlertArgs: ['success', 'User deleted successfully'],
   },
   {
     description: `
@@ -32,13 +29,10 @@ export const testCases: DeleteUserTestCase[] = [
     fetchWrapperMockResult: {
       data: false,
       error: {
-        message: "User deletion failed",
+        message: 'User deletion failed',
       },
     },
     showAlertNbOfCalls: 1,
-    showAlertArgs: [
-      "danger",
-      "User deletion failed",
-    ],
+    showAlertArgs: ['danger', 'User deletion failed'],
   },
 ];

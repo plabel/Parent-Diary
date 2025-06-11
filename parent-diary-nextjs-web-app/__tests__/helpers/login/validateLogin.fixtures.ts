@@ -1,51 +1,51 @@
 export type ValidateLoginTestCase = {
-    description: string;
-    input: unknown;
-    expected: {
-        formErrors: Record<string, boolean>;
-        isValid: boolean;
-    };
-}
+  description: string;
+  input: unknown;
+  expected: {
+    formErrors: Record<string, boolean>;
+    isValid: boolean;
+  };
+};
 
 export const testCases: ValidateLoginTestCase[] = [
-    {
-        description: `
+  {
+    description: `
           Given a valid input object
           When the validateLogin function is called
           Then the function should return a valid output
-        `,    
-        input: {
-            email: 'test@test.com',
-            password: 'Password1234',
-        },
-        expected: {
-            formErrors: {
-                email: false,
-                password: false,
-                otp: false,
-                recoveryCode: false,
-            },
-            isValid: true,
-        },
+        `,
+    input: {
+      email: 'test@test.com',
+      password: 'Password1234',
     },
-    {
-        description: `
+    expected: {
+      formErrors: {
+        email: false,
+        password: false,
+        otp: false,
+        recoveryCode: false,
+      },
+      isValid: true,
+    },
+  },
+  {
+    description: `
           Given an invalid input object
           When the validateLogin function is called
           Then the function should return an invalid output
-        `,    
-        input: {
-            email: '',
-            password: 'Password1234',
-        },
-        expected: {
-            formErrors: {
-                email: true,
-                password: false,
-                otp: false,
-                recoveryCode: false,
-            },
-            isValid: false,
-        },
+        `,
+    input: {
+      email: '',
+      password: 'Password1234',
     },
+    expected: {
+      formErrors: {
+        email: true,
+        password: false,
+        otp: false,
+        recoveryCode: false,
+      },
+      isValid: false,
+    },
+  },
 ];

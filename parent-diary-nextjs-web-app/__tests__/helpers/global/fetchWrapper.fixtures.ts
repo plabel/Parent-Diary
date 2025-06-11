@@ -13,9 +13,9 @@ export const testCases: FetchWrapperTestCase[] = [
           When the server responds but an error occurs
           Then the return should have an error
         `,
-    url: "https://api.example.com",
+    url: 'https://api.example.com',
     options: {
-      method: "GET",
+      method: 'GET',
     },
     expected: {
       error: true,
@@ -33,16 +33,16 @@ export const testCases: FetchWrapperTestCase[] = [
           When the server request times out
           Then the return should be handled by the catch block
         `,
-    url: "https://api.example.com",
+    url: 'https://api.example.com',
     options: {
-      method: "GET",
+      method: 'GET',
     },
     expected: {
       data: null,
       error: {
-        message: "Failed to fetch data, check your internet connection",
+        message: 'Failed to fetch data, check your internet connection',
       },
     },
-    fetchMock: () => Promise.reject(new Error("Timeout")),
+    fetchMock: () => Promise.reject(new Error('Timeout')),
   },
 ];

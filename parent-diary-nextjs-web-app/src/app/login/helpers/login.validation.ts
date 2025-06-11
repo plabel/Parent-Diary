@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -20,7 +20,7 @@ export const validateLogin = (data: unknown) => {
     otp: false,
     recoveryCode: false,
   };
-  if(result.success === false && result.error) {
+  if (result.success === false && result.error) {
     result.error.issues.forEach((issue) => {
       formErrors[issue.path[0] as string] = true;
     });

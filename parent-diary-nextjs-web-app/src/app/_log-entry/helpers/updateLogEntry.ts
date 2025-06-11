@@ -1,5 +1,5 @@
-import { fetchWrapper } from "../../_global/helpers/fetchWrapper";
-import { validateLogEntry } from "@/app/log-entry/helpers/log-entry.validation";
+import { fetchWrapper } from '../../_global/helpers/fetchWrapper';
+import { validateLogEntry } from '@/app/log-entry/helpers/log-entry.validation';
 
 /**
  * Update a log entry
@@ -16,10 +16,10 @@ export default async function updateLogEntry(
   formErrorsState: Record<string, boolean>,
   setLoading: (loading: boolean) => void,
   refreshLogEntries: () => Promise<void>,
-  handleClose: () => void
+  handleClose: () => void,
 ): Promise<void> {
-  const entry = formData.get("entry");
-  const familyMembers = formData.getAll("familyMembers");
+  const entry = formData.get('entry');
+  const familyMembers = formData.getAll('familyMembers');
   const payload = { entry, familyMembers };
   const { formErrors, isValid } = validateLogEntry(payload);
   const updatedFormErrors = {
@@ -35,20 +35,20 @@ export default async function updateLogEntry(
   const { data, error } = await fetchWrapper<boolean>(
     `${process.env.NEXT_PUBLIC_REST_API_URL}/log-entry/${id}`,
     {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
-      credentials: "include",
-    }
+      credentials: 'include',
+    },
   );
   if (data) {
     await refreshLogEntries();
-    showAlert("success", "Log entry updated successfully");
+    showAlert('success', 'Log entry updated successfully');
     handleClose();
   } else {
-    showAlert("danger", error?.message ?? "Log entry update failed");
+    showAlert('danger', error?.message ?? 'Log entry update failed');
   }
   setLoading(false);
 }

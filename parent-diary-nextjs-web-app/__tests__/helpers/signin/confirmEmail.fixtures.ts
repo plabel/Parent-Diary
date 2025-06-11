@@ -18,7 +18,7 @@ export const testCases: ConfirmEmailTestCase[] = [
             When data equals true
             Then setIsConfirmed is called once
         `,
-    token: "1234567890",
+    token: '1234567890',
     showAlertNbOfCalls: 0,
     setIsConfirmedNbOfCalls: 1,
     fetchWrapperMockResult: {
@@ -32,13 +32,13 @@ export const testCases: ConfirmEmailTestCase[] = [
             When data does not equal true
             Then showAlert is called once
         `,
-    token: "1234567890",
+    token: '1234567890',
     showAlertNbOfCalls: 1,
     setIsConfirmedNbOfCalls: 0,
     fetchWrapperMockResult: {
       data: null,
       error: {
-        message: "Error confirming email",
+        message: 'Error confirming email',
       },
     },
   },
@@ -48,7 +48,7 @@ export const testCases: ConfirmEmailTestCase[] = [
             When data does not equal true
             Then showAlert is called once
         `,
-    token: "1234567890",
+    token: '1234567890',
     showAlertNbOfCalls: 1,
     setIsConfirmedNbOfCalls: 0,
     fetchWrapperMockResult: {
