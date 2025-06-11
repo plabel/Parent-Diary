@@ -4,7 +4,7 @@ import { useAlert } from "../_global/alert/alert-provider";
 export default function ExportDataBtn() {
   const showAlert = useAlert();
   function download(dataurl: string, filename: string) {
-    var a = document.createElement("a");
+    const a = document.createElement("a");
     a.href = dataurl;
     a.setAttribute("download", filename);
     a.click();

@@ -23,7 +23,7 @@ export default function LogEntries() {
   const [createdAfter, setCreatedAfter] = useState<Date | null>(null);
   const [createdBefore, setCreatedBefore] = useState<Date | null>(null);
   const showAlert = useAlert();
-  let pageItems = [];
+  const pageItems = [];
   for (let number = 1; number <= 5; number++) {
     pageItems.push(
       <Pagination.Item
