@@ -1,19 +1,15 @@
 "use client";
 import { useAlert } from "@/app/_global/alert/alert-provider";
 import Link from "next/link";
-import { Usable, useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
 import { confirmEmail } from "./helpers/confirmEmail";
 import QRCode from 'qrcode'
+import { useParams } from 'next/navigation'
 
-type ConfirmEmailProps = {
-  params: Usable<{
-    token: string;
-  }>;
-};
-
-export default function ConfirmEmail({ params }: ConfirmEmailProps) {
+export default function ConfirmEmail() {
+  const params = useParams<{ token: string }>()
   const showAlert = useAlert();
-  const token = use(params).token;
+  const token = params.token;
   const [otpAuthUrl, setOtpAuthUrl] = useState<string | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('');

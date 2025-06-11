@@ -14,7 +14,10 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new TransformInterceptor());
   app.enableCors({
-    origin: process.env.NEXT_JS_FRONT_URL,
+    origin: [
+      process.env.NEXT_JS_FRONT_URL,
+      'http://localhost:3000',
+    ],
     credentials: true,
   });
   app.use(
@@ -24,6 +27,6 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();

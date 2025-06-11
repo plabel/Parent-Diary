@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "example",
+    "password": "cat-cool-dog-fun-foo-bar-1234567890",
     "database": "parent_diary",
     "host": "127.0.0.1",
     "dialect": "mysql"
@@ -15,9 +15,9 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": "cat-cool-dog-fun-foo-bar-1234567890",
+    "database": "parent_diary",
+    "host": "db",
     "dialect": "mysql"
   }
 }

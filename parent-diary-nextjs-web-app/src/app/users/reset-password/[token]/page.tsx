@@ -1,18 +1,16 @@
 "use client";
 import { useAlert } from "@/app/_global/alert/alert-provider";
-import { Usable, useState, use } from "react";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { resetPassword } from "./helpers/resetPassword";
 import Link from "next/link";
-type ResetPasswordProps = {
-  params: Usable<{
-    token: string;
-  }>;
-};
+import { useParams } from "next/navigation";
 
-export default function ResetPassword({ params }: ResetPasswordProps) {
+
+export default function ResetPassword() {
+  const params = useParams<{ token: string }>()
   const showAlert = useAlert();
-  const token = use(params).token;
+  const token = params.token;
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, boolean>>({
     password: false,

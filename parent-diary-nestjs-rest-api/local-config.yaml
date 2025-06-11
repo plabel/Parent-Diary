@@ -1,8 +1,8 @@
 db:
-  host: db
+  host: localhost
   port: 3306
   username: root
-  password: cat-cool-dog-fun-foo-bar-1234567890
+  password: example
   database: parent_diary
 master_key: 1234567890_master_key
 pepper: 1234567890_pepper
