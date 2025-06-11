@@ -91,11 +91,12 @@ export class LogEntryService {
           [Op.lte]: createdBefore,
         },
       }),
-      ...(createdAfter && createdBefore && {
-        createdAt: {
-          [Op.between]: [createdAfter, createdBefore],
-        },
-      }),
+      ...(createdAfter &&
+        createdBefore && {
+          createdAt: {
+            [Op.between]: [createdAfter, createdBefore],
+          },
+        }),
     };
     let include: Includeable[] = [
       {
@@ -120,7 +121,10 @@ export class LogEntryService {
    * @returns The log entries
    */
   async getAllLogEntries(userId: number): Promise<LogEntry[]> {
-    return this.logEntryModel.findAll({ include: [FamilyMember], where: { userId } });
+    return this.logEntryModel.findAll({
+      include: [FamilyMember],
+      where: { userId },
+    });
   }
   /**
    * Delete a log entry

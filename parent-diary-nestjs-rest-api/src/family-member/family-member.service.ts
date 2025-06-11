@@ -24,7 +24,9 @@ export class FamilyMemberService {
    * @returns True if the family member was deleted, false otherwise
    */
   async deleteFamilyMember(id: number, userId: number): Promise<boolean> {
-    const result = await this.familyMemberModel.destroy({ where: { id, userId } });
+    const result = await this.familyMemberModel.destroy({
+      where: { id, userId },
+    });
     return result === 1;
   }
 
@@ -34,7 +36,10 @@ export class FamilyMemberService {
    * @param userId - The ID of the user
    * @returns The created family member
    */
-  async createFamilyMember(familyMember: FamilyMember, userId: number): Promise<FamilyMember> {
+  async createFamilyMember(
+    familyMember: FamilyMember,
+    userId: number,
+  ): Promise<FamilyMember> {
     return this.familyMemberModel.create({ ...familyMember, userId });
   }
 
@@ -45,8 +50,14 @@ export class FamilyMemberService {
    * @param userId - The ID of the user
    * @returns The updated family member
    */
-  async updateFamilyMember(id: number, familyMember: Partial<FamilyMember>, userId: number): Promise<FamilyMember | null> {
-    await this.familyMemberModel.update(familyMember, { where: { id, userId } });
+  async updateFamilyMember(
+    id: number,
+    familyMember: Partial<FamilyMember>,
+    userId: number,
+  ): Promise<FamilyMember | null> {
+    await this.familyMemberModel.update(familyMember, {
+      where: { id, userId },
+    });
     return this.familyMemberModel.findByPk(id);
   }
 }

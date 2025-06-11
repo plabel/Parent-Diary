@@ -1,5 +1,10 @@
-
-import { BelongsToMany, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { FamilyMember } from '../family-member/family-member.model';
 
 @Table

@@ -1,10 +1,10 @@
-import { LogEntry } from "./log-entry.model";
+import { LogEntry } from './log-entry.model';
 
 type UpdateLogEntryTestCase = {
   description: string;
-  id: number,
-  logEntry: Partial<LogEntry>,
-  userId: number,
+  id: number;
+  logEntry: Partial<LogEntry>;
+  userId: number;
   expectedResult: LogEntry | null;
   expectedError: Error | null;
 };

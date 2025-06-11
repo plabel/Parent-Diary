@@ -7,9 +7,11 @@ import { randomBytes } from 'crypto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationWrapperPipe({
-    enableDebugMessages: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationWrapperPipe({
+      enableDebugMessages: true,
+    }),
+  );
   app.useGlobalInterceptors(new TransformInterceptor());
   app.enableCors({
     origin: process.env.NEXT_JS_FRONT_URL,

@@ -8,14 +8,17 @@ describe('FamilyMemberService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FamilyMemberService, {
-        provide: getModelToken(FamilyMember),
-        useValue: {
-          create: jest.fn(),
-          findOne: jest.fn(),
-          update: jest.fn(),
+      providers: [
+        FamilyMemberService,
+        {
+          provide: getModelToken(FamilyMember),
+          useValue: {
+            create: jest.fn(),
+            findOne: jest.fn(),
+            update: jest.fn(),
+          },
         },
-      }],
+      ],
     }).compile();
 
     service = module.get<FamilyMemberService>(FamilyMemberService);

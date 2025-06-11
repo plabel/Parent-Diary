@@ -75,7 +75,11 @@ describe('UsersService', () => {
 
   it.each(confirmEmailTestCases)(
     '$description',
-    async ({ token, findByPkResolvedValue: findByPkResolvedValue, expectedResult }) => {
+    async ({
+      token,
+      findByPkResolvedValue: findByPkResolvedValue,
+      expectedResult,
+    }) => {
       try {
         jest
           .spyOn(module.get(getModelToken(User)), 'findByPk')
@@ -107,7 +111,12 @@ describe('UsersService', () => {
   );
   it.each(resetRecoveryCodeTestCases)(
     '$description',
-    async ({ userId, findByPkResolvedValue, expectedResult, expectedError }) => {
+    async ({
+      userId,
+      findByPkResolvedValue,
+      expectedResult,
+      expectedError,
+    }) => {
       try {
         jest
           .spyOn(module.get(getModelToken(User)), 'update')
@@ -124,17 +133,19 @@ describe('UsersService', () => {
   );
   it.each(resetPasswordTestCases)(
     '$description',
-    async ({ expectedResult, expectedError, tokenObj, updateAffectedCount, now }) => {
+    async ({
+      expectedResult,
+      expectedError,
+      tokenObj,
+      updateAffectedCount,
+      now,
+    }) => {
       try {
         jest
           .spyOn(module.get(getModelToken(User)), 'update')
           .mockResolvedValue([updateAffectedCount]);
-        jest
-          .spyOn(global.JSON, 'parse')
-          .mockReturnValue(tokenObj);
-        jest
-          .spyOn(global.Date, 'now')
-          .mockReturnValue(now);
+        jest.spyOn(global.JSON, 'parse').mockReturnValue(tokenObj);
+        jest.spyOn(global.Date, 'now').mockReturnValue(now);
         jest
           .spyOn(module.get<ConfigService>(ConfigService), 'get')
           .mockImplementation((key: string) => {
@@ -143,7 +154,7 @@ describe('UsersService', () => {
             }
             return masterKey;
           });
-        const result = await service.resetPassword("token", "password");
+        const result = await service.resetPassword('token', 'password');
         expect(result).toEqual(expectedResult);
       } catch (error) {
         expect(error).toEqual(expectedError);

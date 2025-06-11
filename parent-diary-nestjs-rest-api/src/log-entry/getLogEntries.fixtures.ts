@@ -1,14 +1,14 @@
-import { LogEntry } from "./log-entry.model";
+import { LogEntry } from './log-entry.model';
 
 type GetLogEntriesTestCase = {
   description: string;
-  userId: number,
-  page: number,
-  search: string,
-  sort: string,
-  familyMembers: number[],
-  createdAfter: string,
-  createdBefore: string,
+  userId: number;
+  page: number;
+  search: string;
+  sort: string;
+  familyMembers: number[];
+  createdAfter: string;
+  createdBefore: string;
   expectedResult: LogEntry[];
   expectedError: Error | null;
 };

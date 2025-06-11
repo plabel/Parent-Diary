@@ -22,7 +22,7 @@ import { FamilyMemberModule } from './family-member/family-member.module';
     LogEntryModule,
     FamilyMemberModule,
   ],
-  controllers: [AppController ],
+  controllers: [AppController],
   providers: [AppService, EmailService],
 })
 export class AppModule {}

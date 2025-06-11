@@ -29,7 +29,8 @@ describe('LogEntryController', () => {
           useValue: {
             create: jest.fn(),
           },
-        }],
+        },
+      ],
     }).compile();
 
     controller = module.get<LogEntryController>(LogEntryController);

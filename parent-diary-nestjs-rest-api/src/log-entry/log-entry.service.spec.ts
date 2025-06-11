@@ -11,7 +11,8 @@ describe('LogEntryService', () => {
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      providers: [LogEntryService,
+      providers: [
+        LogEntryService,
         {
           provide: getModelToken(LogEntry),
           useValue: {
@@ -21,7 +22,8 @@ describe('LogEntryService', () => {
             findAll: jest.fn(),
             update: jest.fn(),
           },
-        },{
+        },
+        {
           provide: getModelToken(FamilyMemberLogEntries),
           useValue: {
             create: jest.fn(),
@@ -30,7 +32,8 @@ describe('LogEntryService', () => {
             update: jest.fn(),
             destroy: jest.fn(),
           },
-        }],
+        },
+      ],
     }).compile();
 
     service = module.get<LogEntryService>(LogEntryService);
@@ -61,12 +64,30 @@ describe('LogEntryService', () => {
   describe('getLogEntries', () => {
     it.each(getLogEntriesTestCases)(
       '$description',
-      async ({ userId, page, search, sort, familyMembers, createdAfter, createdBefore, expectedResult, expectedError }) => {
+      async ({
+        userId,
+        page,
+        search,
+        sort,
+        familyMembers,
+        createdAfter,
+        createdBefore,
+        expectedResult,
+        expectedError,
+      }) => {
         try {
           jest
             .spyOn(module.get(getModelToken(LogEntry)), 'findAll')
             .mockResolvedValue(expectedResult);
-          const result = await service.getLogEntries(userId, page, search, sort, familyMembers, createdAfter, createdBefore);
+          const result = await service.getLogEntries(
+            userId,
+            page,
+            search,
+            sort,
+            familyMembers,
+            createdAfter,
+            createdBefore,
+          );
           expect(result).toEqual(expectedResult);
         } catch (error) {
           expect(error).toEqual(expectedError);

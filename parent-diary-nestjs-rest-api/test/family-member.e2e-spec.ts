@@ -15,35 +15,39 @@ describe('Family Member (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     app.use(
-        session({
-          secret: randomBytes(20).toString('hex'),
-          resave: false,
-          saveUninitialized: false,
-        }),
-      );
+      session({
+        secret: randomBytes(20).toString('hex'),
+        resave: false,
+        saveUninitialized: false,
+      }),
+    );
     await app.init();
   });
 
   it('CRUD family members', async () => {
     const agent = request.agent(app.getHttpServer());
     // log in
-    const loginResponse: { res: { text: string }} = await agent.post('/users/log-in')
+    const loginResponse: { res: { text: string } } = (await agent
+      .post('/users/log-in')
       .send({
         email: 'example@example.com',
         password: 'Password1234',
-        recoveryCode: '12f552ceac29732fea6d716538c68719ec9afbfe63e86ceab6e59824c2e77fad'
+        recoveryCode:
+          '12f552ceac29732fea6d716538c68719ec9afbfe63e86ceab6e59824c2e77fad',
       })
-      .expect(201) as unknown as { res: { text: string }};
-    expect(loginResponse.res.text).toBe("true");
+      .expect(201)) as unknown as { res: { text: string } };
+    expect(loginResponse.res.text).toBe('true');
 
     // read family members
-    const response = await agent.get('/family-member')
+    const response = await agent
+      .get('/family-member')
       .withCredentials()
       .expect(200);
     expect(response.body).toBeInstanceOf(Array);
 
     // create family member
-    const createResponse = await agent.post('/family-member')
+    const createResponse = await agent
+      .post('/family-member')
       .withCredentials()
       .send({
         name: 'John Doe',
@@ -54,7 +58,8 @@ describe('Family Member (e2e)', () => {
     expect(createResponse.body).toBeInstanceOf(Object);
 
     // update family member
-    const updateResponse = await agent.patch(`/family-member/${createResponse.body.id}`)
+    const updateResponse = await agent
+      .patch(`/family-member/${createResponse.body.id}`)
       .withCredentials()
       .send({
         name: 'John Doe updated',
@@ -63,9 +68,10 @@ describe('Family Member (e2e)', () => {
     expect(updateResponse.body).toBeInstanceOf(Object);
 
     // delete family member
-    const deleteResponse = await agent.delete(`/family-member/${createResponse.body.id}`)
+    const deleteResponse = await agent
+      .delete(`/family-member/${createResponse.body.id}`)
       .withCredentials()
       .expect(200);
-    expect(deleteResponse.text).toBe("true");
+    expect(deleteResponse.text).toBe('true');
   });
 });

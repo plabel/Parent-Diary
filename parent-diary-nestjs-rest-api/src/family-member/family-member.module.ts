@@ -8,6 +8,6 @@ import { FamilyMember } from './family-member.model';
 @Module({
   imports: [SequelizeModule.forFeature([FamilyMember]), ConfigModule],
   providers: [FamilyMemberService],
-  controllers: [FamilyMemberController]
+  controllers: [FamilyMemberController],
 })
 export class FamilyMemberModule {}
