@@ -9,7 +9,6 @@ import {
   Post,
   Query,
   Req,
-  Res,
   StreamableFile,
   SetMetadata,
 } from '@nestjs/common';
@@ -19,14 +18,11 @@ import { SignInDto } from './dto/sign-in.dto';
 import { randomBytes } from 'crypto';
 import { EmailService } from '../email/email.service';
 import { LogInDto } from './dto/log-in.dto';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { ResetPasswordDto } from './dto/reset-password-dto';
 import { LogEntryService } from '../log-entry/log-entry.service';
 import { FamilyMemberService } from '../family-member/family-member.service';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as os from 'os';
-import { join } from 'path';
+
 @Controller('users')
 export class UsersController {
   constructor(
@@ -49,7 +45,7 @@ export class UsersController {
   getCurrentUser(
     @Req() request: Request & { session: { userId: string } },
   ): unknown | null {
-    return !!request?.session?.userId
+    return request?.session?.userId
       ? {
           userId: request.session.userId,
         }
@@ -80,7 +76,7 @@ export class UsersController {
   async getOtpKeyUri(
     @Req() request: Request & { session: { userId: string } },
   ): Promise<string | null> {
-    return !!request?.session?.userId
+    return request?.session?.userId
       ? this.usersService.getOtpKeyUri(request.session.userId)
       : null;
   }

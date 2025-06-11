@@ -98,7 +98,7 @@ export class LogEntryService {
           },
         }),
     };
-    let include: Includeable[] = [
+    const include: Includeable[] = [
       {
         model: FamilyMember,
       },
