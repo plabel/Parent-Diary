@@ -9,6 +9,10 @@ Parent Diary is a website to help parents keep track of their family life.
 
 ## Running the project
 
+▶️ Youtube demo video
+
+[![Watch the video](https://img.youtube.com/vi/8K7TqBZTL-w/maxresdefault.jpg)](https://youtu.be/8K7TqBZTL-w)
+
 First clone the project from github. 
 
 Then open the project in your IDE and open a terminal at the root of the repository.
