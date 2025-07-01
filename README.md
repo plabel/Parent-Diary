@@ -9,7 +9,7 @@ Parent Diary is a website to help parents keep track of their family life.
 
 ## Running the project
 
-First clone the project from github. 
+First clone the project from github. And open a terminal at the root of the repository.
 
 We need to install the dependencies and build the Next project outside the docker runtime with `cd parent-diary-nextjs-web-app && npm i && npm run build`
 
